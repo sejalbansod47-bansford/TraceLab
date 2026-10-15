@@ -6,10 +6,35 @@ export function validateDemoSelection(files: Array<{ type: string }>) {
   return 'Real media is disabled in this demo. Files were not read or uploaded. Use synthetic A–E instead.';
 }
 
+export const lineage = ['A', 'B', 'C', 'D'];
+export const leftOut = 'E';
+
 export const demoEvidence = [
-  { id: 'E-001', title: 'Exact copy', observation: 'A and B are byte-identical.', detail: 'Synthetic fixture definition: A and B reference the same bundled file. No hash was calculated in this demo.', files: 'A ↔ B', status: 'Same copy' },
-  { id: 'E-002', title: 'Crop', observation: 'C is a cropped and resized version of A.', detail: 'Synthetic fixture transformation: source region (230, 130)–(1390, 910), resized to 1536 × 1024 pixels. This is a known demo transformation, not an inferred finding.', files: 'A ↔ C', status: 'Changed framing' },
-  { id: 'E-003', title: 'Tone adjustment', observation: 'D has reduced colour saturation and increased contrast.', detail: 'Synthetic fixture transformation: saturation multiplier 0.35; contrast multiplier 1.12. No conclusion about intent or authenticity follows.', files: 'A ↔ D', status: 'Changed tone' },
-  { id: 'E-004', title: 'Resize and compression', observation: 'E is a smaller, more compressed version of A.', detail: 'Synthetic fixture transformation: 768 × 512 pixels, JPEG quality setting 58. The source fixture is 1536 × 1024 pixels.', files: 'A ↔ E', status: 'Changed encoding' },
-  { id: 'E-005', title: 'Sceptic abstention', observation: 'Capture date, location, and intent cannot be established.', detail: 'No independent source evidence is supplied. The fixture transformations do not support claims about real events. These conclusions are withheld.', files: 'A–E', status: 'Not established' },
+  { id: 'E-001', title: 'B is an exact copy of A', detail: 'Synthetic fixture: A and B reference the same bundled file. No hash was calculated in this demo.', status: 'same copy' },
+  { id: 'E-002', title: 'C is a crop of B', detail: 'Synthetic fixture: region (230, 130)–(1390, 910), resized to 1536 × 1024.', status: 'framing' },
+  { id: 'E-003', title: 'D is a tone change of C', detail: 'Synthetic fixture: saturation × 0.35, contrast × 1.12. Says nothing about intent.', status: 'tone' },
+  { id: 'E-004', title: 'E is left out of the family', detail: 'Synthetic fixture: 768 × 512, JPEG quality 58. Too degraded for a citable match in this demo.', status: 'left out' },
+  { id: 'E-005', title: 'Date, place, and intent', detail: 'No independent source evidence. These conclusions are withheld.', status: 'Not established' },
 ];
+
+export const rejectedClaims = [
+  'A is the original camera file',
+  'D was edited to mislead',
+  'E is unrelated to A',
+];
+
+export function buildReport() {
+  return [
+    'TraceLens synthetic review brief',
+    'SYNTHETIC DEMO DATA ONLY — no real media',
+    '',
+    `Lineage: ${lineage.join(' → ')} · left out: ${leftOut}`,
+    '',
+    ...demoEvidence.map(e => `[${e.id}] ${e.title} — ${e.detail}`),
+    '',
+    'Rejected by the sceptic (no citation):',
+    ...rejectedClaims.map(c => `- ${c}`),
+    '',
+    'Triage for a human expert, not a verdict. SHA-256 is fixity, not truth.',
+  ].join('\n');
+}
