@@ -8,7 +8,7 @@ import tone from '@/assets/synthetic-tone.jpg';
 
 export const Route = createFileRoute('/pitch')({
   validateSearch: (s: Record<string, unknown>): { slide?: number } => {
-    const n = Number(s.slide);
+    const n = Number(s['slide']);
     return Number.isFinite(n) && n >= 1 ? { slide: Math.floor(n) } : {};
   },
   head: () => ({ meta: [
@@ -134,14 +134,14 @@ function Pitch() {
     };
     window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k);
   });
-  useEffect(() => { document.title = `${i + 1}/${slides.length} — ${slides[i].title} · TraceLab`; }, [i]);
+  useEffect(() => { document.title = `${i + 1}/${slides.length} — ${slides[i]!.title} · TraceLab`; }, [i]);
 
   return <main className="pitch" ref={stage}
     onClick={(e) => { if ((e.target as HTMLElement).closest('a,button')) return; go(e.clientX > window.innerWidth / 3 ? i + 1 : i - 1); }}
-    onTouchStart={(e) => { touch.current = e.touches[0].clientX; }}
-    onTouchEnd={(e) => { if (touch.current == null) return; const d = e.changedTouches[0].clientX - touch.current; touch.current = null; if (Math.abs(d) > 50) go(d < 0 ? i + 1 : i - 1); }}>
+    onTouchStart={(e) => { touch.current = e.touches[0]!.clientX; }}
+    onTouchEnd={(e) => { if (touch.current == null) return; const d = e.changedTouches[0]!.clientX - touch.current; touch.current = null; if (Math.abs(d) > 50) go(d < 0 ? i + 1 : i - 1); }}>
     <div className="slide-wrapper" style={{ transform: `scale(${scale})` }}>
-      <section className="slide-content" aria-roledescription="slide" aria-label={`${i + 1} of ${slides.length}: ${slides[i].title}`}>{slides[i].body}</section>
+      <section className="slide-content" aria-roledescription="slide" aria-label={`${i + 1} of ${slides.length}: ${slides[i]!.title}`}>{slides[i]!.body}</section>
     </div>
     <div className="pitch-chrome">
       <Link to="/" className="pitch-home" aria-label="Back to site"><ScanMark size={22} /></Link>
