@@ -181,8 +181,8 @@
 .small-diffs figure { margin: 0; width: 150px; }
 .small-diffs img { width: 150px; border: 1px solid var(--border); border-radius: 3px; display: block; }
 .agents-live { display: grid; }
-.agent-row { display: grid; grid-template-columns: 120px 100px minmax(0,1fr); gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-.agent-row > div { display: flex; flex-direction: column; }
+.agent-row { display: grid; grid-template-columns: minmax(0, 200px) 92px minmax(0, 1fr); gap: 12px; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.agent-row > div { display: flex; align-items: baseline; gap: 8px; min-width: 0; } .agent-row > div > .fine { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .state { font-size: 10px; font-weight: 700; text-transform: uppercase; text-align: center; padding: 5px 6px; border: 1px solid var(--foreground); border-radius: 3px; }
 .state.queued { opacity: .45; }
 .state.running, .state.retrying { background: var(--accent-wash); animation: pulse 1.4s ease-in-out infinite; }
@@ -191,8 +191,8 @@
 .state.recovered { background: var(--primary); box-shadow: var(--control-shadow-small); }
 .state.vetoed { background: var(--foreground); color: var(--background); }
 @keyframes pulse { 50% { opacity: .55; } }
-.trail { line-height: 1.4; }
-.agent-log { min-height: 280px; flex: 1; overflow: auto; background: var(--foreground); color: var(--background); font: 11px/1.55 ui-monospace, Menlo, monospace; padding: 12px; border-radius: 4px; white-space: pre-wrap; word-break: break-word; }
+.trail { line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.agent-log { min-height: 120px; flex: 1; overflow: auto; background: var(--foreground); color: var(--background); font: 11px/1.55 ui-monospace, Menlo, monospace; padding: 12px; border-radius: 4px; white-space: pre-wrap; word-break: break-word; }
 .agent-log .fine { color: var(--background); opacity: .7; }
 .agent-log .who { font-weight: 700; color: var(--primary); }
 .agent-log .who.sceptic { color: var(--background); text-decoration: underline; }
