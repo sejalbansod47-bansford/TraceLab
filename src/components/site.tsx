@@ -14,7 +14,6 @@ export function Header() {
 export function Footer() {
   return <footer className="footer"><p>TraceLens · triage for a human expert, not a verdict.</p><p>SHA-256 is fixity, not truth. <span className="footer-mark">© TraceLens</span></p></footer>;
 }
-export function Banner() { return <div className="banner" role="status"><span className="status-dot" />SYNTHETIC DEMO DATA ONLY — no real media</div>; }
 export function PictureStrip() {
   return <div className="picture-strip" aria-label="Synthetic reference and two edited copies">{[['A', original, 'Reference'], ['C', crop, 'Framing'], ['D', tone, 'Tone']].map(([id, src, label]) => <figure key={id}><img src={src} alt={`Synthetic courtyard — ${label}`} width={1536} height={1024} /><figcaption><b>{id}</b><span>{label}</span></figcaption></figure>)}</div>;
 }

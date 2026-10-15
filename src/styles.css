@@ -48,8 +48,6 @@
   button, a, input { -webkit-tap-highlight-color: transparent; }
   ::selection { background: var(--primary); color: var(--foreground); }
 }
-.banner { position: sticky; top: 0; z-index: 50; background: var(--primary); color: var(--foreground); display: flex; justify-content: center; align-items: center; gap: 9px; font-size: 10px; font-weight: 600; padding: 9px 12px; }
-.status-dot { width: 5px; height: 5px; background: var(--foreground); border-radius: 50%; }
 .wrap { width: min(1440px, calc(100% - 96px)); margin-inline: auto; }
 .header { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; padding: 26px 0; border-bottom: 1px solid var(--border); gap: 16px; }
 .logo { display: inline-flex; align-items: center; gap: 9px; font-size: 31px; font-weight: 600; width: fit-content; }
