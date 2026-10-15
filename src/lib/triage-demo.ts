@@ -12,8 +12,8 @@ export const leftOut = 'E';
 export const demoEvidence = [
   { id: 'E-001', title: 'B is an exact copy of A', detail: 'Synthetic fixture: A and B reference the same bundled file. No hash was calculated in this demo.', status: 'same copy' },
   { id: 'E-002', title: 'C is a crop of B', detail: 'Synthetic fixture: region (230, 130)–(1390, 910), resized to 1536 × 1024.', status: 'framing' },
-  { id: 'E-003', title: 'D is a tone change of C', detail: 'Synthetic fixture: saturation × 0.35, contrast × 1.12. Says nothing about intent.', status: 'tone' },
-  { id: 'E-004', title: 'E is left out of the family', detail: 'Synthetic fixture: 768 × 512, JPEG quality 58. Too degraded for a citable match in this demo.', status: 'left out' },
+  { id: 'E-003', title: 'D is missing the staircase', detail: 'Synthetic fixture: the staircase visible in A is absent from D. Says nothing about intent.', status: 'missing element' },
+  { id: 'E-004', title: 'E swaps the tree and is left out', detail: 'Synthetic fixture: the leafy tree is replaced by a different tree, then reduced to 768 × 512. Too degraded for a citable match in this demo.', status: 'left out' },
   { id: 'E-005', title: 'Date, place, and intent', detail: 'No independent source evidence. These conclusions are withheld.', status: 'Not established' },
 ];
 
