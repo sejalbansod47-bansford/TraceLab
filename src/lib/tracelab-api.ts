@@ -1,7 +1,7 @@
 // Client for the TraceLab engine (Python: deterministic forensic pipeline + Claude Agent SDK agents).
-// Base URL comes from VITE_TRACELAB_API (e.g. the Modal deployment); defaults to a local engine.
+// Base URL comes from VITE_TRACELAB_API (set http://localhost:8000 for a local engine); defaults to the hosted Modal engine.
 
-export const API_BASE = (import.meta.env['VITE_TRACELAB_API'] as string | undefined)?.replace(/\/$/, '') || 'http://localhost:8000';
+export const API_BASE = (import.meta.env['VITE_TRACELAB_API'] as string | undefined)?.replace(/\/$/, '') || 'https://sejalbansod47-bansford--tracelab-engine-web.us-east.modal.run';
 
 export const ACCEPTED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
 export const AGENTS = ['coordinator', 'provenance', 'lineage', 'visual', 'sceptic', 'report'] as const;
