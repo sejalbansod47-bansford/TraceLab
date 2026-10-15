@@ -79,11 +79,11 @@
 .dark { background: var(--dolphin); color: var(--linen); min-height: calc(100svh - 34px); }
 .dark .nav a:hover, .dark .nav a.active { border-color: var(--linen); }
 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.card { border: 1.5px solid var(--linen); border-radius: 26px; padding: 30px; }
+.card { border: 1.5px solid var(--dolphin); border-radius: 26px; padding: 30px; }
 .card .k { font: 400 italic 46px/1 var(--font-serif); color: var(--amethyst); }
 .card p { font-size: 17px; line-height: 1.5; margin: 18px 0 0; }
 .nots { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 48px; }
-.nots span { border: 1.5px solid var(--linen); border-radius: 999px; padding: 10px 18px; font-size: 14px; }
+.nots span { border: 1.5px solid var(--dolphin); border-radius: 999px; padding: 10px 18px; font-size: 14px; }
 .footer { border-top: 1.5px solid currentColor; padding: 26px 0 40px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 13px; }
 .footer p { margin: 0; }
 .app-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; }

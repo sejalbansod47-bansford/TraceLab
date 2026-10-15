@@ -20,7 +20,7 @@ const cards = [
 ];
 
 function Why() {
-  return <div className="dark"><div className="wrap">
+  return <div className="wrap">
     <Header />
     <main className="page">
       <div className="page-head"><span className="kicker">why it’s built this way</span><h1 className="h2">inside the folder. <em>not the internet.</em></h1></div>
@@ -28,5 +28,5 @@ function Why() {
       <div className="nots"><span>not a reverse search</span><span>not a fakeness score</span><span>not a courtroom stamp</span></div>
     </main>
     <Footer />
-  </div></div>;
+  </div>;
 }
