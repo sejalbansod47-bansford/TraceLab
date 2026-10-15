@@ -28,5 +28,5 @@ function Why() {
       <div className="nots"><span>not a reverse search</span><span>not a fakeness score</span><span>not a courtroom stamp</span></div>
     </main>
     <Footer />
-  </div></div>;
+  </div>;
 }
