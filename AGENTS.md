@@ -10,8 +10,8 @@
 <!-- LOVABLE:END -->
 
 ## Application rules
+- The /app page is a real client of the TraceLab engine (Python pipeline + Claude Agent SDK) via src/lib/tracelab-api.ts; base URL from VITE_TRACELAB_API. Never fake results in the UI.
+- Uploaded pictures go only to the TraceLab engine; Claude receives measurement JSON, never pictures. Show the synthetic/private mode banner on /app.
 - Each marketing section is its own route (/, /how, /why, /app) sharing Header/Footer from src/components/site.tsx.
-- Keep demo fixtures and validation in a browser-safe module separate from intake presentation, so synthetic evidence is testable without a real API.
-- Demo file selections inspect metadata only and never read or upload user media; only bundled synthetic fixtures can run triage.
 - Use shared site controls and global semantic CSS tokens for the editorial layouts; marketing pages pair an unframed introduction with two stacked content sections to keep presentation consistent.
 - Adapt Uiverse interaction patterns within existing shared controls and semantic CSS tokens rather than loading external scripts; retain source notices to keep the site cohesive and self-contained.

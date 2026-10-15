@@ -78,9 +78,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "TraceLens" },
+      { title: "TraceLab" },
       { name: "description", content: "Private picture triage for human expert review." },
-      { property: "og:title", content: "TraceLens" },
+      { property: "og:title", content: "TraceLab" },
       { property: "og:description", content: "Private picture triage for human expert review." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
