@@ -236,6 +236,9 @@
 .sci p { margin: 0; font-size: 14px; line-height: 1.65; color: var(--muted-foreground); max-width: 60ch; }
 .sci .limit { font-size: 12px; border-left: 3px solid var(--primary); padding-left: 10px; }
 .sci .limit b { color: var(--foreground); font-weight: 600; }
+.sci .sci-label { color: var(--foreground); font-weight: 600; }
+.sci p.ours { color: var(--foreground); }
+.science + .science { margin-top: 0; }
 @media (max-width: 760px) { .science-grid { grid-template-columns: 1fr; } .sci, .sci:nth-child(even) { padding: 22px 0; border-left: 0; } .science-title { font-size: 40px; } .agent-row { grid-template-columns: 96px 86px minmax(0,1fr); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
