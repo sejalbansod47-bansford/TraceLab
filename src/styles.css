@@ -25,11 +25,11 @@
   --color-ring: var(--primary);
   --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px; --radius-xl: 18px;
 }
-/* Palette: Linen 253,241,226 · Dolphin 101,90,124 · Amethyst 171,146,191 */
+/* Palette: Ivory Mist #F7F2E0 · Night Bordeaux #5B0015 · Cool Horizon #80AEE8 */
 :root {
-  --linen: rgb(253 241 226);
-  --dolphin: rgb(101 90 124);
-  --amethyst: rgb(171 146 191);
+  --linen: #F7F2E0;
+  --dolphin: #5B0015;
+  --amethyst: #80AEE8;
   --background: var(--linen);
   --foreground: var(--dolphin);
   --primary: var(--amethyst);
@@ -63,11 +63,11 @@
 .home { min-height: calc(100svh - 120px); display: grid; grid-template-columns: 1.35fr 1fr; gap: 48px; align-items: center; padding: 24px 0 48px; }
 .home-copy { display: flex; flex-direction: column; gap: 26px; }
 .ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-.ticket { background: var(--amethyst); color: var(--linen); border-radius: 22px; padding: 30px; transform: rotate(-4deg); }
-.ticket-head { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; letter-spacing: .12em; border-bottom: 1.5px dashed var(--linen); padding-bottom: 14px; }
+.ticket { background: var(--amethyst); color: var(--dolphin); border-radius: 22px; padding: 30px; transform: rotate(-4deg); }
+.ticket-head { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; letter-spacing: .12em; border-bottom: 1.5px dashed var(--dolphin); padding-bottom: 14px; }
 .chain { display: flex; align-items: center; gap: 8px; margin: 28px 0; font: 400 64px/1 var(--font-serif); flex-wrap: wrap; }
 .chain span.arrow { font-size: 30px; }
-.left-out { display: flex; align-items: center; gap: 14px; border-top: 1.5px dashed var(--linen); padding-top: 16px; font-size: 15px; }
+.left-out { display: flex; align-items: center; gap: 14px; border-top: 1.5px dashed var(--dolphin); padding-top: 16px; font-size: 15px; }
 .left-out b { font: 400 44px/1 var(--font-serif); text-decoration: line-through; }
 .page { padding: 56px 0 96px; }
 .page-head { display: flex; flex-direction: column; gap: 18px; margin-bottom: 56px; }
