@@ -35,6 +35,10 @@
   --control-shadow: 3px 3px 0 var(--foreground);
   --control-shadow-hover: 5px 5px 0 var(--foreground);
   --control-shadow-pressed: 0 0 0 var(--foreground);
+  --control-shadow-small: 2px 2px 0 var(--foreground);
+  --control-accent-shadow: 3px 3px 0 var(--primary);
+  --control-accent-shadow-hover: 5px 5px 0 var(--primary);
+  --label-shadow: 2px 2px 0 var(--primary);
   --accent-wash: color-mix(in oklab, var(--primary) 16%, var(--background));
 }
 @layer base {
@@ -55,8 +59,8 @@
 .nav > a { padding: 6px 0; border-bottom: 1px solid transparent; }
 .nav > a:hover, .nav > a.active { border-color: var(--foreground); }
 .trace-button { position: relative; border-radius: 4px; min-height: 47px; height: auto; padding: 10px 12px 10px 19px; font-size: 13px; font-weight: 500; letter-spacing: 0; white-space: normal; text-align: left; transition: background .2s, color .2s, transform .2s, box-shadow .2s; justify-content: space-between; }
-.trace-button-fill { background: var(--foreground); color: var(--background); border: 1px solid var(--foreground); box-shadow: 3px 3px 0 var(--primary); }
-.trace-button-fill:hover { background: var(--foreground); color: var(--background); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--primary); }
+.trace-button-fill { background: var(--foreground); color: var(--background); border: 1px solid var(--foreground); box-shadow: var(--control-accent-shadow); }
+.trace-button-fill:hover { background: var(--foreground); color: var(--background); transform: translate(-2px, -2px); box-shadow: var(--control-accent-shadow-hover); }
 .trace-button-outline { background: var(--background); border: 1px solid var(--foreground); color: var(--foreground); box-shadow: var(--control-shadow); }
 .trace-button-outline:hover { background: var(--accent-wash); transform: translate(-2px, -2px); box-shadow: var(--control-shadow-hover); }
 .trace-button:active:not(:disabled) { transform: translate(3px, 3px); box-shadow: var(--control-shadow-pressed); }
@@ -85,7 +89,7 @@
 .editorial-block + .editorial-block { border-top: 1px solid var(--border); }
 .block-label { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 12px; margin-bottom: 10px; }
 .tag { display: inline-flex; align-items: center; gap: 7px; font-size: 10px; text-transform: uppercase; font-weight: 500; border: 1px solid var(--border); border-radius: 3px; padding: 7px 9px; width: fit-content; background: var(--surface); }
-.tag::before { content: ''; width: 5px; height: 5px; flex-shrink: 0; border-radius: 1px; background: var(--foreground); box-shadow: 2px 2px 0 var(--primary); }
+.tag::before { content: ''; width: 5px; height: 5px; flex-shrink: 0; border-radius: 1px; background: var(--foreground); box-shadow: var(--label-shadow); }
 .editorial-block h2 { margin: 0; font-size: 24px; line-height: 1.25; font-weight: 500; }
 .editorial-block p { font-size: 14px; line-height: 1.65; margin: 0; max-width: 46ch; color: var(--muted-foreground); }
 .editorial-block > .trace-button { margin-top: auto; width: 100%; }
@@ -137,7 +141,7 @@
 .rejected { margin: 0; padding-left: 18px; line-height: 2; font-size: 14px; }
 .rejected li { text-decoration: line-through; text-decoration-color: var(--primary); text-decoration-thickness: 2px; }
 .row { display: grid; grid-template-columns: 70px minmax(0,1fr) auto; gap: 18px; align-items: center; padding: 14px 0; border-top: 1px solid var(--border); font-size: 14px; }
-.evidence-button { background: var(--primary); color: var(--foreground); border: 1px solid var(--foreground); border-radius: 3px; font-size: 11px; font-weight: 600; box-shadow: 2px 2px 0 var(--foreground); transition: transform .2s, box-shadow .2s; }
+.evidence-button { background: var(--primary); color: var(--foreground); border: 1px solid var(--foreground); border-radius: 3px; font-size: 11px; font-weight: 600; box-shadow: var(--control-shadow-small); transition: transform .2s, box-shadow .2s; }
 .evidence-button:hover { transform: translate(-1px, -1px); box-shadow: var(--control-shadow); }
 .evidence-button:active { transform: translate(2px, 2px); box-shadow: var(--control-shadow-pressed); }
 .spin { animation: spin 1s linear infinite; }
