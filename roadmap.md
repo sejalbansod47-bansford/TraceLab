@@ -5,3 +5,4 @@
 - [x] Refresh shared buttons, labels and upload details with Uiverse-inspired interactions while preserving the editorial layout; verify all pages and synthetic triage.
 - [x] Stop the agent log window from extending past the bottom of the main difference map image.
 - [x] Give the JSON manifest button the same download affordance as the report button.
+- [x] Replace the dense agent panel with a live orchestration diagram and collapsible activity log.

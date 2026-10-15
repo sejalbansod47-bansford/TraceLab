@@ -1,10 +1,11 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { ArrowRight, Download, Loader2, Plus, Upload, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { AgentOrchestration } from '@/components/agent-orchestration';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import {
-  AGENTS, AGENT_ROLE, API_BASE, createCase, fileUrl, getEvidence, getReport, openEvents, originalUrl, reportUrl, validateSelection,
-  type AgentName, type EngineEvent, type Evidence, type EvidenceItem, type ReportManifest, type Sceptic,
+  AGENTS, API_BASE, createCase, fileUrl, getEvidence, getReport, openEvents, originalUrl, reportUrl, validateSelection,
+  type EngineEvent, type Evidence, type EvidenceItem, type ReportManifest, type Sceptic,
 } from '@/lib/tracelab-api';
 
 type Phase = 'idle' | 'measuring' | 'agents' | 'done' | 'error';
@@ -22,7 +23,6 @@ function Chips({ ids, onOpen }: { ids: string[]; onOpen: (id: string) => void })
 export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?: boolean; replayCase?: string | undefined }) {
   const input = useRef<HTMLInputElement>(null);
   const logRef = useRef<HTMLDivElement>(null);
-  const mainImgRef = useRef<HTMLImageElement>(null);
   const esRef = useRef<EventSource | null>(null);
   const [demo, setDemo] = useState(startLoaded);
   const [files, setFiles] = useState<File[]>([]);
@@ -40,26 +40,10 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
   const [report, setReport] = useState<ReportManifest | null>(null);
   const [runInfo, setRunInfo] = useState('');
   const [open, setOpen] = useState<string | null>(null);
-  const [logMax, setLogMax] = useState<number | undefined>(undefined);
 
   useEffect(() => () => { esRef.current?.close(); previews.forEach(URL.revokeObjectURL); }, []);  // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { logRef.current?.scrollTo({ top: logRef.current.scrollHeight }); }, [log]);
   useEffect(() => { if (replayCase) void startReplay(replayCase); }, [replayCase]);  // eslint-disable-line react-hooks/exhaustive-deps
-
-  // The agent log never grows past the bottom of the main difference map beside it.
-  function measureLog() {
-    const img = mainImgRef.current, log = logRef.current;
-    if (!img || !log) { setLogMax(undefined); return; }
-    const room = Math.floor(img.getBoundingClientRect().bottom - log.getBoundingClientRect().top);
-    setLogMax(room > 0 ? Math.max(120, room) : undefined);
-  }
-  useEffect(measureLog);
-  useEffect(() => {
-    const ro = new ResizeObserver(measureLog);
-    if (mainImgRef.current) ro.observe(mainImgRef.current);
-    window.addEventListener('resize', measureLog);
-    return () => { ro.disconnect(); window.removeEventListener('resize', measureLog); };
-  }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
   const evIndex: Record<string, EvidenceItem> = Object.fromEntries((ev?.evidence ?? []).map(x => [x.id, x]));
   const loaded = demo || files.length > 0;
@@ -234,24 +218,18 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
         <section className="result-section">
           <span className="kicker">Where it changed{mainDiff ? ` · ${mainDiff.data.child} vs ${mainDiff.data.parent}` : ''}</span>
           {mainDiff ? <>
-            <img className="heatmap" ref={mainImgRef} src={fileUrl(caseId, mainDiff.data.heatmap)} alt={`Difference heatmap of ${mainDiff.data.child} against ${mainDiff.data.parent}`} />
+            <img className="heatmap" src={fileUrl(caseId, mainDiff.data.heatmap)} alt={`Difference heatmap of ${mainDiff.data.child} against ${mainDiff.data.parent}`} />
             <p className="fine">{mainDiff.data.localized_regions} localized region(s). {mainDiff.data.regions_px_in_drawn_on[0] && <>Box x={mainDiff.data.regions_px_in_drawn_on[0].x}, y={mainDiff.data.regions_px_in_drawn_on[0].y}, {mainDiff.data.regions_px_in_drawn_on[0].w}×{mainDiff.data.regions_px_in_drawn_on[0].h}px. </>}<Chips ids={[mainDiff.id]} onOpen={setOpen} /></p>
             <div className="small-diffs">{diffs.filter(d => d !== mainDiff).map(d => <figure key={d.id}><img src={fileUrl(caseId, d.data.heatmap)} alt={`${d.data.child} vs ${d.data.parent}`} /><figcaption className="fine">{d.data.child} vs {d.data.parent}: {d.data.localized_regions} region(s) <Chips ids={[d.id]} onOpen={setOpen} /></figcaption></figure>)}</div>
           </> : <p className="fine">No linked pairs to compare.</p>}
         </section>
         <section className="result-section">
           <span className="kicker">Agents · live</span>
-          <div className="agents-live">{AGENTS.map((a: AgentName) => {
-            const t = trails[a] ?? [{ state: 'queued' }];
-            const cur = t[t.length - 1] ?? { state: 'queued' };
-            const trail = t.length > 1 ? t.map(x => x.state + (x.extra ? ` (${x.extra})` : '')).join(' → ') : '';
-            return <div className="agent-row" key={a} title={trail || undefined}>
-              <div><b>{a}</b><span className="fine">{AGENT_ROLE[a]}</span></div>
-              <span className={`state ${cur.state}`}>{cur.state === 'vetoed' ? 'veto' : cur.state}</span>
-              <span className="fine trail">{trail}</span>
-            </div>;
-          })}</div>
-          <div className="agent-log" ref={logRef} style={{ maxHeight: logMax }}>{log.length ? log.map((l, i) => <div key={i}><span className={`who ${l.agent}`}>[{l.agent}]</span> <span className={l.tone ?? ''}>{l.text}</span></div>) : <span className="fine">Waiting for agents…</span>}</div>
+          <AgentOrchestration trails={trails} />
+          <details className="agent-details">
+            <summary>Activity log <span className="fine">{log.length} entries</span></summary>
+            <div className="agent-log" ref={logRef}>{log.length ? log.map((l, i) => <div key={i}><span className={`who ${l.agent}`}>[{l.agent}]</span> <span className={l.tone ?? ''}>{l.text}</span></div>) : <span className="fine">Waiting for agents…</span>}</div>
+          </details>
         </section>
       </div>
 

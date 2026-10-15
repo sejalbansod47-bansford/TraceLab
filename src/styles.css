@@ -192,10 +192,30 @@
 .state.vetoed { background: var(--foreground); color: var(--background); }
 @keyframes pulse { 50% { opacity: .55; } }
 .trail { line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.agent-log { min-height: 120px; flex: 1; overflow: auto; background: var(--foreground); color: var(--background); font: 11px/1.55 ui-monospace, Menlo, monospace; padding: 12px; border-radius: 4px; white-space: pre-wrap; word-break: break-word; }
-.agent-log .fine { color: var(--background); opacity: .7; }
-.agent-log .who { font-weight: 700; color: var(--primary); }
-.agent-log .who.sceptic { color: var(--background); text-decoration: underline; }
+.orchestration { position: relative; width: min(100%, 360px); height: 440px; margin: 4px auto 0; flex: none; }
+.orchestration-links { position: absolute; inset: 0; width: 100%; height: 400px; fill: none; stroke: var(--border); stroke-width: 1.2; }
+.orchestration-arrow { stroke: var(--foreground); }
+.orchestration-node { position: absolute; width: 33.333%; display: flex; align-items: center; flex-direction: column; gap: 3px; text-align: center; }
+.orchestration-coordinator { top: 0; left: 33.333%; }
+.orchestration-provenance { top: 120px; left: 0; }
+.orchestration-lineage { top: 120px; left: 33.333%; }
+.orchestration-visual { top: 120px; left: 66.666%; }
+.orchestration-sceptic { top: 240px; left: 33.333%; }
+.orchestration-report { top: 350px; left: 33.333%; }
+.orchestration-symbol { position: relative; display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--border); border-radius: 50%; background: var(--background); transition: background .25s, border-color .25s; }
+.orchestration-node strong { font-size: 12px; font-weight: 600; line-height: 1.4; }
+.orchestration-role { font-size: 10px; line-height: 1.4; color: var(--muted-foreground); }
+.orchestration-state { font-size: 9px; line-height: 1.4; text-transform: uppercase; color: var(--muted-foreground); }
+.orchestration-node[data-state="running"] .orchestration-symbol, .orchestration-node[data-state="retrying"] .orchestration-symbol { background: var(--accent-wash); border-color: var(--foreground); }
+.orchestration-node[data-state="done"] .orchestration-symbol, .orchestration-node[data-state="recovered"] .orchestration-symbol { background: var(--primary); border-color: var(--foreground); }
+.orchestration-node[data-state="vetoed"] .orchestration-symbol, .orchestration-node[data-state="malformed"] .orchestration-symbol { background: var(--foreground); color: var(--background); }
+.orchestration-indicator { position: absolute; right: -4px; bottom: -2px; background: var(--background); color: var(--foreground); border-radius: 50%; }
+.agent-details { border-top: 1px solid var(--border); }
+.agent-details summary { cursor: pointer; font-size: 12px; padding: 12px 0; }
+.agent-details summary .fine { margin-left: 12px; font-size: 10px; }
+.agent-log { max-height: 180px; overflow: auto; background: var(--surface); color: var(--foreground); font: 11px/1.55 ui-monospace, Menlo, monospace; padding: 12px; border-radius: 4px; white-space: pre-wrap; word-break: break-word; }
+.agent-log .who { font-weight: 700; color: var(--foreground); }
+.agent-log .who.sceptic { text-decoration: underline; }
 .agent-log .warn { background: var(--primary); color: var(--foreground); padding: 0 3px; }
 .agent-log .ok { text-decoration: underline; text-decoration-color: var(--primary); text-decoration-thickness: 2px; }
 .rejected .claim { text-decoration: line-through; text-decoration-color: var(--primary); text-decoration-thickness: 2px; }
