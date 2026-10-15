@@ -54,8 +54,8 @@
 .logo svg { color: var(--foreground); width: 25px; flex-shrink: 0; }
 .logo-dot { color: var(--primary); margin-left: -7px; }
 .nav { display: flex; gap: 32px; align-items: center; font-size: 13px; }
-.nav > a { padding: 6px 0; border-bottom: 1px solid transparent; }
-.nav > a:hover, .nav > a.active { border-color: var(--foreground); }
+.nav > a:not(.nav-app) { padding: 6px 0; border-bottom: 1px solid transparent; }
+.nav > a:not(.nav-app):hover, .nav > a:not(.nav-app).active { border-color: var(--foreground); }
 .trace-button { position: relative; border-radius: 4px; min-height: 47px; height: auto; padding: 10px 12px 10px 19px; font-size: 13px; font-weight: 500; letter-spacing: 0; white-space: normal; text-align: left; transition: background .2s, color .2s, transform .2s, box-shadow .2s; justify-content: space-between; }
 .trace-button-fill { background: var(--foreground); color: var(--background); border: 1px solid var(--foreground); box-shadow: var(--control-accent-shadow); }
 .trace-button-fill:hover { background: var(--foreground); color: var(--background); transform: translate(-2px, -2px); box-shadow: var(--control-accent-shadow-hover); }
