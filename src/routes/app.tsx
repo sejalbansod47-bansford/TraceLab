@@ -3,7 +3,7 @@ import { Header, Footer } from '@/components/site';
 import { TriageIntake } from '@/components/triage-intake';
 
 export const Route = createFileRoute('/app')({
-  validateSearch: (s: Record<string, unknown>) => ({ demo: s.demo === true || s.demo === 'true' ? true : undefined }),
+  validateSearch: (s: Record<string, unknown>): { demo?: boolean } => (s['demo'] === true || s['demo'] === 'true' ? { demo: true } : {}),
   head: () => ({ meta: [
     { title: 'trace app — run a synthetic triage' },
     { name: 'description', content: 'Drop PNG, JPG or WebP copies, or use synthetic A–E, and run a first-pass triage.' },
