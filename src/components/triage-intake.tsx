@@ -8,7 +8,7 @@ import crop from '@/assets/synthetic-crop.jpg';
 import tone from '@/assets/synthetic-tone.jpg';
 import small from '@/assets/synthetic-small.jpg';
 const fixtures = [['A', original, '1536 × 1024'], ['B', original, '1536 × 1024'], ['C', crop, '1536 × 1024'], ['D', tone, '1536 × 1024'], ['E', small, '768 × 512']] as const;
-const heat = Array.from({ length: 96 }, (_, i) => { const x = i % 12, y = Math.floor(i / 12); return x > 2 && x < 10 && y > 1 && y < 7; });
+ const heat = Array.from({ length: 96 }, (_, i) => { const x = i % 12, y = Math.floor(i / 12); return x > 2 && x < 10 && y > 1 && y < 7; });
 export function TriageIntake({ startLoaded = false }: { startLoaded?: boolean }) {
   const input = useRef<HTMLInputElement>(null);
   const [loaded, setLoaded] = useState(startLoaded);
