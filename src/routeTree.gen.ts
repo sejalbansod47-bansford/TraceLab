@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as HowRouteImport } from './routes/how'
+import { Route as PitchRouteImport } from './routes/pitch'
 import { Route as WhyRouteImport } from './routes/why'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const HowRoute = HowRouteImport.update({
   path: '/how',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PitchRoute = PitchRouteImport.update({
+  id: '/pitch',
+  path: '/pitch',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WhyRoute = WhyRouteImport.update({
   id: '/why',
   path: '/why',
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
   '/how': typeof HowRoute
+  '/pitch': typeof PitchRoute
   '/why': typeof WhyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
   '/how': typeof HowRoute
+  '/pitch': typeof PitchRoute
   '/why': typeof WhyRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
   '/how': typeof HowRoute
+  '/pitch': typeof PitchRoute
   '/why': typeof WhyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/how' | '/why'
+  fullPaths: '/' | '/app' | '/how' | '/pitch' | '/why'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/how' | '/why'
-  id: '__root__' | '/' | '/app' | '/how' | '/why'
+  to: '/' | '/app' | '/how' | '/pitch' | '/why'
+  id: '__root__' | '/' | '/app' | '/how' | '/pitch' | '/why'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRoute
   HowRoute: typeof HowRoute
+  PitchRoute: typeof PitchRoute
   WhyRoute: typeof WhyRoute
 }
 
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HowRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pitch': {
+      id: '/pitch'
+      path: '/pitch'
+      fullPath: '/pitch'
+      preLoaderRoute: typeof PitchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/why': {
       id: '/why'
       path: '/why'
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRoute,
   HowRoute: HowRoute,
+  PitchRoute: PitchRoute,
   WhyRoute: WhyRoute,
 }
 export const routeTree = rootRouteImport
