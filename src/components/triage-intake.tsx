@@ -217,11 +217,15 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
       <div className="result-columns">
         <section className="result-section">
           <span className="kicker">Where it changed{mainDiff ? ` · ${mainDiff.data.child} vs ${mainDiff.data.parent}` : ''}</span>
-          {mainDiff ? <>
-            <img className="heatmap" src={fileUrl(caseId, mainDiff.data.heatmap)} alt={`Difference heatmap of ${mainDiff.data.child} against ${mainDiff.data.parent}`} />
-            <p className="fine">{mainDiff.data.localized_regions} localized region(s). {mainDiff.data.regions_px_in_drawn_on[0] && <>Box x={mainDiff.data.regions_px_in_drawn_on[0].x}, y={mainDiff.data.regions_px_in_drawn_on[0].y}, {mainDiff.data.regions_px_in_drawn_on[0].w}×{mainDiff.data.regions_px_in_drawn_on[0].h}px. </>}<Chips ids={[mainDiff.id]} onOpen={setOpen} /></p>
-            <div className="small-diffs">{diffs.filter(d => d !== mainDiff).map(d => <figure key={d.id}><img src={fileUrl(caseId, d.data.heatmap)} alt={`${d.data.child} vs ${d.data.parent}`} /><figcaption className="fine">{d.data.child} vs {d.data.parent}: {d.data.localized_regions} region(s) <Chips ids={[d.id]} onOpen={setOpen} /></figcaption></figure>)}</div>
-          </> : <p className="fine">No linked pairs to compare.</p>}
+          {mainDiff ? <div className="difference-grid">
+            {[mainDiff, ...diffs.filter(d => d !== mainDiff)].map(d => <figure className={d === mainDiff ? 'difference-primary' : ''} key={d.id}>
+              <img src={fileUrl(caseId, d.data.heatmap)} alt={`Difference heatmap of ${d.data.child} against ${d.data.parent}`} />
+              <figcaption className="fine"><b>{d.data.child} vs {d.data.parent}</b> · {d.data.localized_regions} region(s)
+                {d === mainDiff && d.data.regions_px_in_drawn_on[0] && <span className="difference-coordinates">Box x={d.data.regions_px_in_drawn_on[0].x}, y={d.data.regions_px_in_drawn_on[0].y}, {d.data.regions_px_in_drawn_on[0].w}×{d.data.regions_px_in_drawn_on[0].h}px</span>}
+                <Chips ids={[d.id]} onOpen={setOpen} />
+              </figcaption>
+            </figure>)}
+          </div> : <p className="fine">No linked pairs to compare.</p>}
         </section>
         <section className="result-section">
           <span className="kicker">Agents · live</span>
