@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { Header, Footer, PictureStrip, AppLink } from '@/components/site';
 import { Check, ArrowUpRight } from 'lucide-react';
 import { ScrollingPanels } from '@/components/scrolling-panels';
+import { ComparisonAccordion } from '@/components/comparison-accordion';
 export const Route = createFileRoute('/why')({ head: () => ({ meta: [
   { title: 'why TraceLab: inside the folder, not the internet' }, { name: 'description', content: 'How TraceLab differs technically from single-image forensics, error-level analysis, reverse search, fakeness detectors and capture provenance, and where it is going next.' },
   { property: 'og:title', content: 'inside the folder. not the internet.' }, { property: 'og:description', content: 'Efficient, ethical, checkable picture triage for human experts.' },
@@ -57,17 +58,7 @@ function Compare() {
       <h2 id="compare-title" className="display science-title">Different tools<br /><em>answer different questions.</em></h2>
       <p className="lede">Most tools look at one picture, or at the whole internet. TraceLab looks at the folder in front of you.</p>
     </div>
-    <ScrollingPanels label="Tool comparisons">{compare.map(([tag, title, short, them, us, theyWin], i) => <article className="comparison-panel" key={tag}>
-        <div className="panel-heading"><span className="kicker">{tag}</span><span className="panel-number">{String(i + 1).padStart(2, '0')}</span></div>
-        <h3>{title}</h3>
-        <p className="short">{short}</p>
-        <details className="more">
-          <summary>Why</summary>
-          <p><b>How they work.</b> {them}</p>
-          <p><b>How TraceLab works.</b> {us}</p>
-          <p><b>Where they still win.</b> {theyWin}</p>
-        </details>
-    </article>)}</ScrollingPanels>
+    <ComparisonAccordion items={compare} />
   </section>;
 }
 
