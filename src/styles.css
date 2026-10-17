@@ -176,10 +176,15 @@
 .ev-data { max-height: 50vh; overflow: auto; font: 11px/1.45 ui-monospace, Menlo, monospace; white-space: pre-wrap; background: var(--surface); padding: 10px; border-radius: 3px; }
 .edge-list { margin: 18px 0 0; padding-left: 18px; font-size: 13px; line-height: 1.8; color: var(--muted-foreground); }
 .edge-list b { color: var(--foreground); font-weight: 600; }
-.heatmap { display: block; width: 100%; border: 1px solid var(--foreground); border-radius: 3px; }
-.small-diffs { display: flex; gap: 12px; flex-wrap: wrap; }
-.small-diffs figure { margin: 0; width: 150px; }
-.small-diffs img { width: 150px; border: 1px solid var(--border); border-radius: 3px; display: block; }
+.diff-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.diff-row figure { margin: 0; width: 220px; display: flex; flex-direction: column; gap: 8px; }
+.diff-frame { display: grid; place-items: center; width: 220px; height: 148px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface); overflow: hidden; }
+.diff-frame img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; }
+.diff-row figure.focus .diff-frame { border: 2px solid var(--foreground); box-shadow: var(--control-shadow); }
+.diff-row figcaption { display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
+.diff-row figcaption b { font-weight: 600; }
+.more summary { cursor: pointer; width: fit-content; font-size: 12px; font-weight: 600; padding: 4px 0; }
+.more[open] summary { margin-bottom: 8px; }
 .agents-live { display: grid; }
 .agent-row { display: grid; grid-template-columns: minmax(0, 200px) 92px minmax(0, 1fr); gap: 12px; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
 .agent-row > div { display: flex; align-items: baseline; gap: 8px; min-width: 0; } .agent-row > div > .fine { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -192,7 +197,7 @@
 .state.vetoed { background: var(--foreground); color: var(--background); }
 @keyframes pulse { 50% { opacity: .55; } }
 .trail { line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.orchestration { position: relative; width: min(100%, 360px); height: 440px; margin: 4px auto 0; flex: none; }
+.orchestration { position: relative; width: min(100%, 360px); height: 440px; margin: 4px 0 0; flex: none; }
 .orchestration-links { position: absolute; inset: 0; width: 100%; height: 400px; fill: none; stroke: var(--border); stroke-width: 1.2; }
 .orchestration-arrow { stroke: var(--foreground); }
 .orchestration-node { position: absolute; width: 33.333%; display: flex; align-items: center; flex-direction: column; gap: 3px; text-align: center; }

@@ -22,7 +22,6 @@ function Chips({ ids, onOpen }: { ids: string[]; onOpen: (id: string) => void })
 
 export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?: boolean; replayCase?: string | undefined }) {
   const input = useRef<HTMLInputElement>(null);
-  const logRef = useRef<HTMLDivElement>(null);
   const esRef = useRef<EventSource | null>(null);
   const [demo, setDemo] = useState(startLoaded);
   const [files, setFiles] = useState<File[]>([]);
@@ -35,14 +34,12 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
   const [caseId, setCaseId] = useState<string | null>(null);
   const [ev, setEv] = useState<Evidence | null>(null);
   const [trails, setTrails] = useState<Record<string, Trail>>({});
-  const [log, setLog] = useState<{ agent: string; text: string; tone?: 'warn' | 'ok' | undefined }[]>([]);
   const [sceptic, setSceptic] = useState<Sceptic | null>(null);
   const [report, setReport] = useState<ReportManifest | null>(null);
   const [runInfo, setRunInfo] = useState('');
   const [open, setOpen] = useState<string | null>(null);
 
   useEffect(() => () => { esRef.current?.close(); previews.forEach(URL.revokeObjectURL); }, []);  // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => { logRef.current?.scrollTo({ top: logRef.current.scrollHeight }); }, [log]);
   useEffect(() => { if (replayCase) void startReplay(replayCase); }, [replayCase]);  // eslint-disable-line react-hooks/exhaustive-deps
 
   const evIndex: Record<string, EvidenceItem> = Object.fromEntries((ev?.evidence ?? []).map(x => [x.id, x]));
@@ -69,24 +66,16 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
       return { ...t, [agent]: cur };
     });
   }
-  const say = (agent: string, text: string, tone?: 'warn' | 'ok') => setLog(l => [...l, { agent, text, tone }]);
-
   function onEvent(id: string) {
     return async (e: EngineEvent) => {
-      if (e.type === 'run_start') { setState('coordinator', 'running'); say('coordinator', 'run started — planning hand-offs'); }
+      if (e.type === 'run_start') setState('coordinator', 'running');
       else if (e.type === 'agent_state') {
         if (e.state === 'queued') return setState(e.agent, 'queued');
         const extra = e.state === 'recovered' ? e.recovery_id : e.state === 'vetoed' ? `${e.rejected} rejected` : e.state === 'done' && e.claims ? `${e.claims} claims` : undefined;
         setState(e.agent, e.state, extra);
-        if (e.state === 'malformed') say(e.agent, `MALFORMED OUTPUT — ${e.error ?? ''} raw: ${e.raw ?? ''}`, 'warn');
-        if (e.state === 'recovered') say(e.agent, `RECOVERED ${e.recovery_id}: retry returned valid JSON`, 'ok');
-        if (e.state === 'vetoed') say('sceptic', `VETO — rejected ${e.rejected}, accepted ${e.accepted}; veto ${e.veto}`, 'warn');
-      } else if (e.type === 'log') say(e.agent, e.text.length > 360 ? e.text.slice(0, 360) + ' …' : e.text);
-      else if (e.type === 'fault_injection') say('coordinator', `FAULT INJECTION — ${e.note}`, 'warn');
-      else if (e.type === 'gate') say('coordinator', `GATE denied ${e.tool} ${e.path ?? ''}`, 'warn');
-      else if (e.type === 'sceptic') setSceptic(e.data);
+      } else if (e.type === 'sceptic') setSceptic(e.data);
       else if (e.type === 'report_ready') { const r = await getReport(id); if (r) { setReport(r); if (r.sceptic) setSceptic(r.sceptic); } }
-      else if (e.type === 'error') say('coordinator', `ERROR — ${e.text}`, 'warn');
+      else if (e.type === 'error') setNotice(e.text);
       else if (e.type === 'run_end') {
         setState('coordinator', e.subtype === 'success' ? 'done' : 'malformed');
         setRunInfo(e.subtype === 'success' ? `${((e.duration_ms ?? 0) / 1000).toFixed(0)}s · $${(e.cost_usd ?? 0).toFixed(2)}` : `ended: ${e.subtype}`);
@@ -100,7 +89,7 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
   function resetRun() {
     esRef.current?.close();
     setTrails(Object.fromEntries(AGENTS.map(a => [a, [{ state: 'queued' }]])));
-    setLog([]); setSceptic(null); setReport(null); setRunInfo(''); setEv(null); setCaseId(null);
+    setSceptic(null); setReport(null); setRunInfo(''); setEv(null); setCaseId(null);
   }
 
   async function run() {
@@ -187,66 +176,86 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
       </div>
 
       <section className="result-section">
-        <span className="kicker">Preserved · measured, not guessed</span>
-        <p className="fine explain"><b>sha256</b> is each file's fingerprint: it proves this exact file wasn't changed after upload — not that the picture is true. Tap any evidence id for the raw measurement.</p>
-        <div className="thumbs">{Object.entries(ev.images).map(([L, im]) => {
-          const out = lin.excluded.includes(L);
-          const meta = ev.evidence.find(x => x.kind === 'metadata' && x.subject[0] === L);
-          const hash = ev.evidence.find(x => x.kind === 'sha256' && x.subject[0] === L);
-          return <figure key={L} className={out ? 'out' : ''}>
-            <img src={originalUrl(caseId, im.file)} alt={`Preserved ${L}`} />
-            <figcaption><b>{L}</b> <span className="pill">{out ? 'left out' : L === lin.root ? 'root' : 'linked'}</span>
-              <span className="fine">{meta?.data.format} {im.width}×{im.height}{meta?.data.metadata_present ? '' : ' · no metadata'}</span>
-              <span className="fine mono" title={im.sha256}>sha256 {im.sha256.slice(0, 12)}…</span>
-              <span>{hash && <Chips ids={[hash.id, meta!.id]} onOpen={setOpen} />}</span>
-            </figcaption>
-          </figure>;
-        })}</div>
-      </section>
-
-      <section className="result-lineage">
-        <div><span className="kicker">Lineage hypothesis</span><p className="fine">{lin.method}</p><Chips ids={[lin.id]} onOpen={setOpen} /></div>
-        <div>
-          <div className="lineage">{order.map((l, i) => <Fragment key={l}>{i > 0 && <span className="arrow">→</span>}<span className="node">{l}<small>{i === 0 ? 'reference' : edgeLabel(lin.edges[i - 1]?.direction_basis ?? '')}</small></span></Fragment>)}
-            {lin.excluded.map(x => <span className="node out" key={x}>{x}<small>left out</small></span>)}</div>
+        <span className="kicker">01 · The family</span>
+        <div className="lineage">{order.map((l, i) => <Fragment key={l}>{i > 0 && <span className="arrow">→</span>}<span className="node">{l}<small>{i === 0 ? 'reference' : edgeLabel(lin.edges[i - 1]?.direction_basis ?? '')}</small></span></Fragment>)}
+          {lin.excluded.map(x => <span className="node out" key={x}>{x}<small>left out</small></span>)}</div>
+        <p className="fine">{order.join(' → ')} {order.length === 1 ? 'stands alone' : 'are one family'}.{lin.excluded.length > 0 ? ` ${lin.excluded.join(', ')} left out.` : ''}</p>
+        <details className="more">
+          <summary>Why this order</summary>
+          <p className="fine">{lin.method} <Chips ids={[lin.id]} onOpen={setOpen} /></p>
           <ul className="edge-list">{lin.edges.map(e => <li key={e.child}><b>{e.parent} → {e.child}</b> {e.direction_basis} <Chips ids={e.evidence_ids} onOpen={setOpen} /></li>)}
             {lin.excluded.length > 0 && <li><b>Left out: {lin.excluded.join(', ')}</b> no geometric alignment with any linked picture <Chips ids={lin.exclusion_evidence_ids} onOpen={setOpen} /></li>}</ul>
-        </div>
+        </details>
       </section>
 
-      <div className="result-columns">
-        <section className="result-section">
-          <span className="kicker">Where it changed{mainDiff ? ` · ${mainDiff.data.child} vs ${mainDiff.data.parent}` : ''}</span>
-          {mainDiff ? <>
-            <img className="heatmap" src={fileUrl(caseId, mainDiff.data.heatmap)} alt={`Difference heatmap of ${mainDiff.data.child} against ${mainDiff.data.parent}`} />
-            <p className="fine">{mainDiff.data.localized_regions} localized region(s). {mainDiff.data.regions_px_in_drawn_on[0] && <>Box x={mainDiff.data.regions_px_in_drawn_on[0].x}, y={mainDiff.data.regions_px_in_drawn_on[0].y}, {mainDiff.data.regions_px_in_drawn_on[0].w}×{mainDiff.data.regions_px_in_drawn_on[0].h}px. </>}<Chips ids={[mainDiff.id]} onOpen={setOpen} /></p>
-            <div className="small-diffs">{diffs.filter(d => d !== mainDiff).map(d => <figure key={d.id}><img src={fileUrl(caseId, d.data.heatmap)} alt={`${d.data.child} vs ${d.data.parent}`} /><figcaption className="fine">{d.data.child} vs {d.data.parent}: {d.data.localized_regions} region(s) <Chips ids={[d.id]} onOpen={setOpen} /></figcaption></figure>)}</div>
-          </> : <p className="fine">No linked pairs to compare.</p>}
-        </section>
-        <section className="result-section">
-          <span className="kicker">Agents · live</span>
-          <AgentOrchestration trails={trails} />
-          <details className="agent-details">
-            <summary>Activity log <span className="fine">{log.length} entries</span></summary>
-            <div className="agent-log" ref={logRef}>{log.length ? log.map((l, i) => <div key={i}><span className={`who ${l.agent}`}>[{l.agent}]</span> <span className={l.tone ?? ''}>{l.text}</span></div>) : <span className="fine">Waiting for agents…</span>}</div>
+      <section className="result-section">
+        <span className="kicker">02 · Where it changed</span>
+        {diffs.length ? <>
+          <div className="diff-row">{[...diffs].sort((a, b) => b.data.changed_pixel_frac - a.data.changed_pixel_frac).map(d => {
+            const box = d.data.regions_px_in_drawn_on?.[0];
+            return <figure key={d.id} className={d === mainDiff ? 'focus' : ''}>
+              <span className="diff-frame"><img src={fileUrl(caseId, d.data.heatmap)} alt={`${d.data.child} compared with ${d.data.parent}`} /></span>
+              <figcaption><b>{d.data.child} vs {d.data.parent}</b><span className="fine">{d.data.localized_regions} region{d.data.localized_regions === 1 ? '' : 's'}{box ? ` · ${box.w}×${box.h}px` : ''}</span></figcaption>
+            </figure>;
+          })}</div>
+          <details className="more">
+            <summary>Measurements</summary>
+            <ul className="edge-list">{diffs.map(d => {
+              const box = d.data.regions_px_in_drawn_on?.[0];
+              return <li key={d.id}><b>{d.data.child} vs {d.data.parent}</b> {d.data.localized_regions} localized region(s){box ? `, box x=${box.x}, y=${box.y}, ${box.w}×${box.h}px` : ''}. <Chips ids={[d.id]} onOpen={setOpen} /></li>;
+            })}</ul>
           </details>
-        </section>
-      </div>
+        </> : <p className="fine">No linked pairs to compare.</p>}
+      </section>
 
       <section className="result-section">
-        <span className="kicker">Rejected by the sceptic {sceptic && `· veto ${sceptic.veto ?? '?'} · ${sceptic.accepted.length} accepted · ${sceptic.rejected.length} rejected`}</span>
-        {sceptic ? <ul className="rejected">{sceptic.rejected.map((r, i) => <li key={i}><span className="claim">{r.text}</span> <span className="fine">— {r.source}: {r.reason}</span> <Chips ids={r.evidence_ids} onOpen={setOpen} /></li>)}</ul>
-          : <p className="fine">The sceptic runs after the three analysts. No citation, no claim.</p>}
+        <span className="kicker">03 · Who checked it</span>
+        <p className="fine">Three specialists read the measurements together. The sceptic can throw a claim out.</p>
+        <AgentOrchestration trails={trails} />
+      </section>
+
+      <section className="result-section">
+        <span className="kicker">04 · Thrown out</span>
+        {sceptic ? <>
+          <p className="fine">Veto {sceptic.veto ?? '—'} · {sceptic.accepted.length} kept · {sceptic.rejected.length} thrown out.</p>
+          {sceptic.rejected.length > 0 && <details className="more">
+            <summary>What was thrown out</summary>
+            <ul className="rejected">{sceptic.rejected.map((r, i) => <li key={i}><span className="claim">{r.text}</span> <span className="fine">— {r.source}: {r.reason}</span> <Chips ids={r.evidence_ids} onOpen={setOpen} /></li>)}</ul>
+          </details>}
+        </> : <p className="fine">The sceptic runs after the three analysts.</p>}
       </section>
 
       {report?.report && <section className="result-section brief">
-        <span className="kicker">The brief · only what the sceptic accepted</span>
+        <span className="kicker">05 · The brief</span>
         <h2>{report.report.title}</h2>
         <p>{report.report.summary}</p>
-        {report.report.sections?.map(s => <div key={s.heading}><h3>{s.heading}</h3><ul>{s.findings.map((f, i) => <li key={i}>{f.text} <Chips ids={f.evidence_ids} onOpen={setOpen} /></li>)}</ul></div>)}
-        {report.recoveries.length > 0 && <div><h3>Agent recovery</h3><ul>{report.recoveries.map(r => <li key={r.id}><span className="ev-chip static">{r.id}</span> {r.detail}</li>)}</ul></div>}
-        <div className="limits"><h3>Limitations</h3><ul>{report.limitations.map(l => <li key={l}>{l}</li>)}</ul></div>
+        <details className="more">
+          <summary>Findings and limits</summary>
+          {report.report.sections?.map(s => <div key={s.heading}><h3>{s.heading}</h3><ul>{s.findings.map((f, i) => <li key={i}>{f.text} <Chips ids={f.evidence_ids} onOpen={setOpen} /></li>)}</ul></div>)}
+          {report.recoveries.length > 0 && <div><h3>Agent recovery</h3><ul>{report.recoveries.map(r => <li key={r.id}><span className="ev-chip static">{r.id}</span> {r.detail}</li>)}</ul></div>}
+          <div className="limits"><h3>Limitations</h3><ul>{report.limitations.map(l => <li key={l}>{l}</li>)}</ul></div>
+        </details>
       </section>}
+
+      <section className="result-section">
+        <span className="kicker">06 · The files</span>
+        <div className="thumbs">{Object.entries(ev.images).map(([L, im]) => {
+          const out = lin.excluded.includes(L);
+          return <figure key={L} className={out ? 'out' : ''}>
+            <img src={originalUrl(caseId, im.file)} alt={`Preserved ${L}`} />
+            <figcaption><b>{L}</b> <span className="pill">{out ? 'left out' : L === lin.root ? 'root' : 'linked'}</span></figcaption>
+          </figure>;
+        })}</div>
+        <details className="more">
+          <summary>Fingerprints</summary>
+          <p className="fine">A sha256 proves this exact file wasn’t changed after upload. It does not prove the picture is true.</p>
+          <ul className="edge-list">{Object.entries(ev.images).map(([L, im]) => {
+            const meta = ev.evidence.find(x => x.kind === 'metadata' && x.subject[0] === L);
+            const hash = ev.evidence.find(x => x.kind === 'sha256' && x.subject[0] === L);
+            return <li key={L}><b>{L}</b> {meta?.data.format} {im.width}×{im.height}{meta?.data.metadata_present ? '' : ' · no metadata'} · sha256 {im.sha256.slice(0, 12)}… {hash && <Chips ids={[hash.id, meta!.id]} onOpen={setOpen} />}</li>;
+          })}</ul>
+        </details>
+      </section>
     </div>}
 
     <Dialog open={open !== null} onOpenChange={o => { if (!o) setOpen(null); }}>
