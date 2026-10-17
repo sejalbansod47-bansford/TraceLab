@@ -175,6 +175,7 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
         </div>}
       </div>
 
+      <div className="result-pair">
       <section className="result-section">
         <span className="kicker">01 · The family</span>
         <div className="lineage">{order.map((l, i) => <Fragment key={l}>{i > 0 && <span className="arrow">→</span>}<span className="node">{l}<small>{i === 0 ? 'reference' : edgeLabel(lin.edges[i - 1]?.direction_basis ?? '')}</small></span></Fragment>)}
@@ -207,6 +208,7 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
           </details>
         </> : <p className="fine">No linked pairs to compare.</p>}
       </section>
+      </div>
 
       <section className="result-section">
         <span className="kicker">03 · Who checked it</span>
