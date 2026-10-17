@@ -11,3 +11,4 @@
 - [x] Refine science-card colours and equalise card 08; animate tool comparisons as expanding bordered panels with arrow navigation; verify both pages.
 - [x] Make tool comparisons six small static cards that fit with their title, no animation and no Why dropdown; verify desktop and narrow widths.
 - [x] Restore compact bordered comparison folds with 20px padding and manual navigation; add plus-to-flip future panels and verify both sections.
+- [x] Apply the preferred 125% visual scale, rebalance headings, and mix How-card colours; verify layouts and flip controls.

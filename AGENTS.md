@@ -20,3 +20,4 @@
 - Keep Why tool comparisons in ComparisonGrid as content-sized bordered folds with manual navigation and directly visible explanations; only the future-scope row auto-scrolls, avoiding repeated animation.
 - Use FutureFlipCard for Why future-scope explanations with accessible plus/back controls; ScrollingPanels observes flipped state to pause motion while reading.
 - Keep How-page science explanations in ScienceFlipCard with a persistent accessible toggle and scrollable reverse face; scoped bento styles avoid changing other pages.
+- Express shared site dimensions in rem through the global root scale, keeping the fixed-format pitch canvas independent so its screen-fitting layout stays stable.
