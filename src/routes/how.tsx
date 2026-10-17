@@ -45,13 +45,16 @@ function Science() {
       <h2 id="science-title" className="display science-title">Standard, published techniques.<br /><em>No black box.</em></h2>
       <p className="lede">Ordinary open-source image science. OpenCV, imagehash, Python’s hashlib. Plain code, same answer every time.</p>
     </div>
-    <div className="point-grid">{science.map(([tech, title, body, limit]) => <article className="point-card" key={tech}>
-      <span className="tag">{tech}</span><h3>{title}</h3>
-      <details className="more">
-        <summary>Why</summary>
-        <p>{body}</p>
-        <p><b>What it can’t do.</b> {limit}</p>
-      </details>
+    <div className="point-grid">{[science.slice(0, 4), science.slice(4)].map((col, i) => <article className="point-card" key={i}>
+      <ul className="point-list">{col.map(([tech, title, body, limit]) => <li key={tech}>
+        <span className="tag">{tech}</span>
+        <h3>{title}</h3>
+        <details className="more">
+          <summary>Why</summary>
+          <p>{body}</p>
+          <p><b>What it can’t do.</b> {limit}</p>
+        </details>
+      </li>)}</ul>
     </article>)}</div>
   </section>;
 }

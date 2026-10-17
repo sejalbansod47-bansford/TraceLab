@@ -56,16 +56,18 @@ function Compare() {
       <h2 id="compare-title" className="display science-title">Different tools<br /><em>answer different questions.</em></h2>
       <p className="lede">Most tools look at one picture, or at the whole internet. TraceLab looks at the folder in front of you.</p>
     </div>
-    <div className="point-grid">{compare.map(([tag, title, short, them, us, theyWin]) => <article className="point-card" key={tag}>
-      <span className="tag">{tag}</span>
-      <h3>{title}</h3>
-      <p className="short">{short}</p>
-      <details className="more">
-        <summary>Why</summary>
-        <p><b>How they work.</b> {them}</p>
-        <p><b>How TraceLab works.</b> {us}</p>
-        <p><b>Where they still win.</b> {theyWin}</p>
-      </details>
+    <div className="point-grid">{[compare.slice(0, 3), compare.slice(3)].map((col, i) => <article className="point-card" key={i}>
+      <ul className="point-list">{col.map(([tag, title, short, them, us, theyWin]) => <li key={tag}>
+        <span className="tag">{tag}</span>
+        <h3>{title}</h3>
+        <p className="short">{short}</p>
+        <details className="more">
+          <summary>Why</summary>
+          <p><b>How they work.</b> {them}</p>
+          <p><b>How TraceLab works.</b> {us}</p>
+          <p><b>Where they still win.</b> {theyWin}</p>
+        </details>
+      </li>)}</ul>
     </article>)}</div>
   </section>;
 }

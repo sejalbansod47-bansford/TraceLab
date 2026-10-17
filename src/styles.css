@@ -251,7 +251,11 @@
 .point-card:nth-child(even) { box-shadow: 4px 4px 0 var(--foreground); }
 .point-card h3 { margin: 0; font-size: 28px; font-weight: 500; line-height: 1.15; }
 .point-card .short { margin: 0; font-size: 18px; line-height: 1.4; color: var(--foreground); }
-.point-card .more { margin-top: auto; }
+.point-list { list-style: none; margin: 0; padding: 0; width: 100%; display: flex; flex-direction: column; gap: 0; }
+.point-list li { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 18px 0; border-top: 1px solid var(--border); }
+.point-list li:first-child { padding-top: 0; border-top: 0; }
+.point-list li:last-child { padding-bottom: 0; }
+.point-card .more { margin-top: 2px; }
 .point-card .more p { margin: 0 0 10px; font-size: 16px; line-height: 1.55; color: var(--muted-foreground); max-width: 52ch; }
 .point-card .more p b { color: var(--foreground); font-weight: 600; }
 @media (max-width: 760px) { .point-grid { grid-template-columns: 1fr; } .point-card h3 { font-size: 24px; } }
