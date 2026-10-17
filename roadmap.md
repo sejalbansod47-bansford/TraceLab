@@ -1,4 +1,5 @@
 # TraceLens
+- [x] Align app family letters with single-line captions, remove comparison-picture shadows, and move the brief after the files.
 - [x] Prevent scrolling flip-card edge clipping and reveal hovered/focused/flipped panels; verify interaction after automatic scrolling.
 - [x] Lighten blue cards and make flip shadows rotate with their faces; verify both flip styles.
 - [x] Remove public Pitch link and add researched portfolio privacy/usage notices.

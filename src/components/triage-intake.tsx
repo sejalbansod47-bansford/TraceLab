@@ -226,18 +226,6 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
         </> : <p className="fine">The sceptic runs after the three analysts.</p>}
       </section>
 
-      {report?.report && <section className="result-section brief">
-        <span className="kicker">05 · The brief</span>
-        <h2>{report.report.title}</h2>
-        <p>{report.report.summary}</p>
-        <details className="more">
-          <summary>Findings and limits</summary>
-          {report.report.sections?.map(s => <div key={s.heading}><h3>{s.heading}</h3><ul>{s.findings.map((f, i) => <li key={i}>{f.text} <Chips ids={f.evidence_ids} onOpen={setOpen} /></li>)}</ul></div>)}
-          {report.recoveries.length > 0 && <div><h3>Agent recovery</h3><ul>{report.recoveries.map(r => <li key={r.id}><span className="ev-chip static">{r.id}</span> {r.detail}</li>)}</ul></div>}
-          <div className="limits"><h3>Limitations</h3><ul>{report.limitations.map(l => <li key={l}>{l}</li>)}</ul></div>
-        </details>
-      </section>}
-
       <section className="result-section">
         <span className="kicker">06 · The files</span>
         <div className="thumbs">{Object.entries(ev.images).map(([L, im]) => {
@@ -253,10 +241,21 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
           <ul className="edge-list">{Object.entries(ev.images).map(([L, im]) => {
             const meta = ev.evidence.find(x => x.kind === 'metadata' && x.subject[0] === L);
             const hash = ev.evidence.find(x => x.kind === 'sha256' && x.subject[0] === L);
-            return <li key={L}><b>{L}</b> {meta?.data.format} {im.width}×{im.height}{meta?.data.metadata_present ? '' : ' · no metadata'} · sha256 {im.sha256.slice(0, 12)}… {hash && <Chips ids={[hash.id, meta!.id]} onOpen={setOpen} />}</li>;
+            return <li key={L}><b>{L}</b> {meta?.data.format} {im.width}×{im.height}{meta?.data.metadata_present ? '' : ' · no metadata'} · sha256 {im.sha256.slice(0, 12)}… {hash && <Chips ids={meta ? [hash.id, meta.id] : [hash.id]} onOpen={setOpen} />}</li>;
           })}</ul>
         </details>
       </section>
+      {report?.report && <section className="result-section brief">
+        <span className="kicker">05 · The brief</span>
+        <h2>{report.report.title}</h2>
+        <p>{report.report.summary}</p>
+        <details className="more">
+          <summary>Findings and limits</summary>
+          {report.report.sections?.map(s => <div key={s.heading}><h3>{s.heading}</h3><ul>{s.findings.map((f, i) => <li key={i}>{f.text} <Chips ids={f.evidence_ids} onOpen={setOpen} /></li>)}</ul></div>)}
+          {report.recoveries.length > 0 && <div><h3>Agent recovery</h3><ul>{report.recoveries.map(r => <li key={r.id}><span className="ev-chip static">{r.id}</span> {r.detail}</li>)}</ul></div>}
+          <div className="limits"><h3>Limitations</h3><ul>{report.limitations.map(l => <li key={l}>{l}</li>)}</ul></div>
+        </details>
+      </section>}
     </div>}
 
     <Dialog open={open !== null} onOpenChange={o => { if (!o) setOpen(null); }}>

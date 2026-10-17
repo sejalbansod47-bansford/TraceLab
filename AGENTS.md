@@ -16,6 +16,7 @@
 - Use shared site controls and global semantic CSS tokens for the editorial layouts; marketing pages pair an unframed introduction with two stacked content sections to keep presentation consistent.
 - Adapt Uiverse interaction patterns within existing shared controls and semantic CSS tokens rather than loading external scripts; retain source notices to keep the site cohesive and self-contained.
 - Render live orchestration through a dedicated agent-flow component driven by engine event trails, with raw logs collapsed by default to preserve the minimal results layout.
+- Keep app result visuals before the final brief, with full-width family and comparison rows so lineage captions have room.
 - Use the shared ScrollingPanels component for Why-page horizontal rows; native scrolling pauses for hover, focus, touch, expanded details and reduced motion so explanations stay accessible.
 - Keep interacting scrolling panels within padded rail edges on pointer, focus and flip events; generous vertical rail space prevents perspective rotation from clipping faces.
 - Keep Why tool comparisons in ComparisonGrid as content-sized bordered folds with manual navigation and directly visible explanations; only the future-scope row auto-scrolls, avoiding repeated animation.
