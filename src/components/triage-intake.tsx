@@ -161,7 +161,6 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
           <h2 className="statement">Measure.<br /><span>Then question.</span></h2>
           <p>Code fingerprints and aligns every picture. Then Claude agents read only those measurements, a sceptic throws out what isn't cited, and you get the brief.</p>
           <Button variant="trace" onClick={run} disabled={!loaded || busy}>{busy ? <><Loader2 className="spin" />{phase === 'measuring' ? 'measuring' : 'agents running'}</> : <>run triage<ArrowRight /></>}</Button>
-          <p className="fine">Pictures go only to the TraceLab engine. Claude receives measurement JSON, never the pictures.</p>
         </section>
       </div>
     </div>
