@@ -455,7 +455,7 @@
 }
 :is(.science-flip-card, .future-flip-card) { border-radius: 0.5rem; }
 .comparison-folds { padding: 0.125rem 0.25rem 0.25rem 0.125rem; }
-.panel-rail { padding-top: 0.25rem; padding-left: 0.125rem; }
+.panel-rail { padding: 2rem 1rem; scroll-padding-inline: 1rem; }
 @media (hover: hover) and (pointer: fine) {
   :is(.science-flip-card, .future-flip-card, .comparison-fold, .comparison-panel, .thumbs figure, .difference-grid figure, .picture-strip figure, .slide-card):hover {
     transform: translate(var(--card-lift), var(--card-lift));
