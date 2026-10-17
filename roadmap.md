@@ -1,5 +1,5 @@
 # TraceLens
-- [ ] Add the uploaded A–D trial pictures beside the synthetic demo control and verify loading and engine submission.
+- [x] Add the uploaded A–D trial pictures beside the synthetic demo control; verified four previews, real engine comparisons and the completed brief, with eight tests passing.
 - [x] Thin photo borders, minimise corner curves, and keep lineage/measurement explanations visible with blue squares; verified styles and live evidence text from a saved engine run.
 - [x] Renumber files and final brief as 05 and 06; restore side-by-side family/comparison sections with wrapping captions.
 - [x] Align app family letters with single-line captions, remove comparison-picture shadows, and move the brief after the files.
