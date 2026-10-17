@@ -315,11 +315,7 @@
 .science-flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
 .science-flip-card[data-flipped="true"] .science-flip-inner { transform: rotateY(180deg); }
 .science-flip-face { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 1.25rem 1.25rem 4rem; border: 1px solid var(--science-outline); border-radius: 0.5rem; background: var(--science-porcelain); backface-visibility: hidden; overflow: hidden; }
-.science-flip-card:nth-child(n + 5) { --science-outline: var(--foreground); --science-card-ink: var(--foreground); --science-card-muted: var(--foreground); --science-card-rule: var(--border); }
-.science-flip-card:nth-child(5) { --science-porcelain: #EFE4CE; }
-.science-flip-card:nth-child(6) { --science-porcelain: #BFD9F0; }
-.science-flip-card:nth-child(7) { --science-porcelain: #F2DCD3; }
-.science-flip-card:nth-child(8) { --science-porcelain: #DFE9DA; }
+.science-flip-card:nth-child(n + 5) { --science-porcelain: var(--primary); --science-outline: var(--foreground); --science-card-ink: var(--foreground); --science-card-muted: var(--foreground); --science-card-rule: var(--border); }
 .science-flip-card:nth-child(n + 5) .science-flip-face { color: var(--science-card-ink); }
 .science-flip-card:nth-child(n + 5) .fine { color: var(--science-card-muted); }
 .science-flip-card:nth-child(n + 5) .science-flip-symbol { color: var(--science-card-ink); }
