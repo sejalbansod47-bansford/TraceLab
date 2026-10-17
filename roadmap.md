@@ -1,4 +1,7 @@
 # TraceLens
+- [ ] Lighten blue cards and make flip shadows rotate with their faces; verify both flip styles.
+- [ ] Remove public Pitch link and add researched portfolio privacy/usage notices.
+- [ ] Complete privacy disclosures before accepting personal uploads: awaiting operator contact, jurisdiction and engine retention/provider details.
 - [x] Remove the Why-page block-label arrow and add space between the 02 label and "Pictures. Not identities."; verify spacing in the preview.
 - [x] Line up the bottom of the Why-page "Try it with your pictures" button with the bottom of the left-hand photo strip at wide widths; verify across viewports.
 - [x] Replace maroon How cards with blue and unify card lift/shadow interactions across the site; verify flips, comparison navigation and reduced motion.
