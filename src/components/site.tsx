@@ -12,7 +12,7 @@ export function Header() {
   return <header className="header"><Link to="/" className="logo" aria-label="TraceLab home"><ScanMark />TraceLab</Link><nav className="nav" aria-label="Main"><Link to="/how" activeProps={{ className: 'active' }}>How it works</Link><Link to="/why" activeProps={{ className: 'active' }}>Why TraceLab</Link><Button asChild variant="trace" className="nav-app"><Link to="/app" activeProps={{ className: 'active' }}>Open app <ArrowUpRight size={16} /></Link></Button></nav></header>;
 }
 export function Footer() {
-  return <footer className="footer"><p>TraceLab · triage for a human expert, not a verdict.</p><p>SHA-256 is fixity, not truth. <Link to="/pitch" className="footer-pitch">Pitch</Link><span className="footer-mark">© TraceLab</span></p></footer>;
+  return <footer className="footer"><p>TraceLab · triage for a human expert, not a verdict.<br />Independent portfolio project.</p><nav className="footer-links" aria-label="Legal"><Link to="/privacy">Privacy & cookies</Link><Link to="/terms">Usage & limitations</Link></nav><p>SHA-256 is fixity, not truth.<span className="footer-mark">© TraceLab</span></p></footer>;
 }
 export function PictureStrip() {
   return <div className="picture-strip" aria-label="Synthetic reference and two edited copies">{[['A', original, 'Reference'], ['C', crop, 'Framing'], ['D', tone, 'Tone']].map(([id, src, label]) => <figure key={id}><img src={src} alt={`Synthetic courtyard, ${label}`} width={1536} height={1024} /><figcaption><b>{id}</b><span>{label}</span></figcaption></figure>)}</div>;

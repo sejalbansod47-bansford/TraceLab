@@ -21,3 +21,5 @@
 - Use FutureFlipCard for Why future-scope explanations with accessible plus/back controls; ScrollingPanels observes flipped state to pause motion while reading.
 - Keep How-page science explanations in ScienceFlipCard with a persistent accessible toggle and scrollable reverse face; scoped bento styles avoid changing other pages.
 - Express shared site dimensions in rem through the global root scale, keeping the fixed-format pitch canvas independent so its screen-fitting layout stays stable.
+- Apply flip-card shadows to the rotating faces, not their perspective wrappers, so no empty shadow frame remains during rotation.
+- Keep privacy and usage disclosures on dedicated public routes sharing Header/Footer; state unverified processing details explicitly rather than inventing legal or provider guarantees.

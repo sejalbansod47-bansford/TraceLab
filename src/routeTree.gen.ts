@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as HowRouteImport } from './routes/how'
 import { Route as PitchRouteImport } from './routes/pitch'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as WhyRouteImport } from './routes/why'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +37,16 @@ const PitchRoute = PitchRouteImport.update({
   path: '/pitch',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WhyRoute = WhyRouteImport.update({
   id: '/why',
   path: '/why',
@@ -46,6 +58,8 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRoute
   '/how': typeof HowRoute
   '/pitch': typeof PitchRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/why': typeof WhyRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +67,8 @@ export interface FileRoutesByTo {
   '/app': typeof AppRoute
   '/how': typeof HowRoute
   '/pitch': typeof PitchRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/why': typeof WhyRoute
 }
 export interface FileRoutesById {
@@ -61,14 +77,24 @@ export interface FileRoutesById {
   '/app': typeof AppRoute
   '/how': typeof HowRoute
   '/pitch': typeof PitchRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/why': typeof WhyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/how' | '/pitch' | '/why'
+  fullPaths: '/' | '/app' | '/how' | '/pitch' | '/privacy' | '/terms' | '/why'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/how' | '/pitch' | '/why'
-  id: '__root__' | '/' | '/app' | '/how' | '/pitch' | '/why'
+  to: '/' | '/app' | '/how' | '/pitch' | '/privacy' | '/terms' | '/why'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/how'
+    | '/pitch'
+    | '/privacy'
+    | '/terms'
+    | '/why'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +102,8 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRoute
   HowRoute: typeof HowRoute
   PitchRoute: typeof PitchRoute
+  PrivacyRoute: typeof PrivacyRoute
+  TermsRoute: typeof TermsRoute
   WhyRoute: typeof WhyRoute
 }
 
@@ -109,6 +137,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PitchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/why': {
       id: '/why'
       path: '/why'
@@ -124,6 +166,8 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRoute,
   HowRoute: HowRoute,
   PitchRoute: PitchRoute,
+  PrivacyRoute: PrivacyRoute,
+  TermsRoute: TermsRoute,
   WhyRoute: WhyRoute,
 }
 export const routeTree = rootRouteImport
