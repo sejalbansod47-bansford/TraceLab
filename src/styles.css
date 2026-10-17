@@ -493,7 +493,7 @@
 @media (prefers-reduced-motion: reduce) { .panel-navigation > button, .panel-navigation > button svg { transition: none; transform: none !important; } }
 
 /* The shadow belongs to each rotating face, never the stationary perspective box. */
-:is(.science-flip-card, .future-flip-card),
-:is(.science-flip-card, .future-flip-card):is(:hover, :focus-within) { box-shadow: none; }
+:is(.science-flip-card.science-flip-card, .future-flip-card.future-flip-card),
+:is(.science-flip-card.science-flip-card, .future-flip-card.future-flip-card):is(:hover, :focus-within) { box-shadow: none; }
 :is(.science-flip-face, .future-flip-face) { box-shadow: var(--card-shadow); transition: box-shadow .2s ease; }
 :is(.science-flip-card, .future-flip-card):is(:hover, :focus-within) :is(.science-flip-face, .future-flip-face) { box-shadow: var(--card-shadow-hover); }
