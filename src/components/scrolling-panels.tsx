@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { visiblePanelScroll } from '@/lib/panel-visibility';
 
 export function ScrollingPanels({ label, children }: { label: string; children: ReactNode }) {
   const rail = useRef<HTMLDivElement>(null);
@@ -25,13 +26,32 @@ export function ScrollingPanels({ label, children }: { label: string; children: 
     const leave = () => { hovered = false; };
     const touchStart = () => { touching = true; };
     const touchEnd = () => { touching = false; };
-    const focus = () => { focused = true; };
+    const reveal = (panel: Element | null) => {
+      if (!(panel instanceof HTMLElement)) return;
+      const bounds = element.getBoundingClientRect();
+      const card = panel.getBoundingClientRect();
+      const inset = parseFloat(getComputedStyle(element).paddingLeft);
+      element.scrollLeft = visiblePanelScroll(element.scrollLeft, bounds.left, bounds.width, card.left, card.width, inset, element.scrollWidth - element.clientWidth);
+      position = element.scrollLeft;
+    };
+    const interact = (event: Event) => {
+      const panel = event.target instanceof Element ? event.target.closest('article') : null;
+      if (panel && element.contains(panel)) reveal(panel);
+    };
+    const focus = (event: FocusEvent) => { focused = true; interact(event); };
     const blur = (event: FocusEvent) => { focused = event.relatedTarget instanceof Node && element.contains(event.relatedTarget); };
     const toggle = () => { expanded = Boolean(element.querySelector('details[open], [data-flipped="true"]')); };
-    const flips = new MutationObserver(toggle);
+    const flips = new MutationObserver(records => {
+      toggle();
+      for (const record of records) {
+        if (record.target instanceof Element && record.target.getAttribute('data-flipped') === 'true') reveal(record.target.closest('article'));
+      }
+    });
     flips.observe(element, { subtree: true, attributes: true, attributeFilter: ['data-flipped'] });
     element.addEventListener('pointerenter', enter);
     element.addEventListener('pointerleave', leave);
+    element.addEventListener('pointerover', interact);
+    element.addEventListener('pointerdown', interact);
     element.addEventListener('touchstart', touchStart, { passive: true });
     element.addEventListener('touchend', touchEnd);
     element.addEventListener('touchcancel', touchEnd);
@@ -62,6 +82,8 @@ export function ScrollingPanels({ label, children }: { label: string; children: 
       flips.disconnect();
       element.removeEventListener('pointerenter', enter);
       element.removeEventListener('pointerleave', leave);
+      element.removeEventListener('pointerover', interact);
+      element.removeEventListener('pointerdown', interact);
       element.removeEventListener('touchstart', touchStart);
       element.removeEventListener('touchend', touchEnd);
       element.removeEventListener('touchcancel', touchEnd);
