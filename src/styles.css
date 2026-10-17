@@ -143,6 +143,7 @@
 .drop:hover .upload-emblem, .drop.on .upload-emblem { transform: translateY(-3px) rotate(-4deg); }
 .drop h3 { font-size: 1.25rem; font-weight: 400; margin: 0; }
 .drop .fine { margin: 0; }
+.drop .drop-privacy { max-width: 22rem; opacity: .75; }
 .drop .trace-button { min-height: 2.25rem; padding: 0.5rem 0.75rem; }
 .order { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 0.5rem; width: 100%; }
 .order figure { margin: 0; min-width: 0; }
