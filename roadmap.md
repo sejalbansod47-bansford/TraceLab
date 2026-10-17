@@ -1,4 +1,5 @@
 # TraceLens
+- [ ] Thin photo borders, minimise corner curves, and keep lineage/measurement explanations visible with blue squares; verify results.
 - [x] Renumber files and final brief as 05 and 06; restore side-by-side family/comparison sections with wrapping captions.
 - [x] Align app family letters with single-line captions, remove comparison-picture shadows, and move the brief after the files.
 - [x] Prevent scrolling flip-card edge clipping and reveal hovered/focused/flipped panels; verify interaction after automatic scrolling.

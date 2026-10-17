@@ -180,12 +180,12 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
         <div className="lineage">{order.map((l, i) => <Fragment key={l}>{i > 0 && <span className="arrow">→</span>}<span className="node">{l}<small>{i === 0 ? 'reference' : edgeLabel(lin.edges[i - 1]?.direction_basis ?? '')}</small></span></Fragment>)}
           {lin.excluded.map(x => <span className="node out" key={x}>{x}<small>left out</small></span>)}</div>
         <p className="fine">{order.join(' → ')} {order.length === 1 ? 'stands alone' : 'are one family'}.{lin.excluded.length > 0 ? ` ${lin.excluded.join(', ')} left out.` : ''}</p>
-        <details className="more">
-          <summary>Why this order</summary>
+        <div className="result-explanation">
+          <h3>Why this order</h3>
           <p className="fine">{lin.method} <Chips ids={[lin.id]} onOpen={setOpen} /></p>
           <ul className="edge-list">{lin.edges.map(e => <li key={e.child}><b>{e.parent} → {e.child}</b> {e.direction_basis} <Chips ids={e.evidence_ids} onOpen={setOpen} /></li>)}
             {lin.excluded.length > 0 && <li><b>Left out: {lin.excluded.join(', ')}</b> no geometric alignment with any linked picture <Chips ids={lin.exclusion_evidence_ids} onOpen={setOpen} /></li>}</ul>
-        </details>
+        </div>
       </section>
 
       <section className="result-section">
@@ -198,13 +198,13 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
               <figcaption><b>{d.data.child} vs {d.data.parent}</b><span className="fine">{d.data.localized_regions} region{d.data.localized_regions === 1 ? '' : 's'}{box ? ` · ${box.w}×${box.h}px` : ''}</span></figcaption>
             </figure>;
           })}</div>
-          <details className="more">
-            <summary>Measurements</summary>
+          <div className="result-explanation">
+            <h3>Measurements</h3>
             <ul className="edge-list">{diffs.map(d => {
               const box = d.data.regions_px_in_drawn_on?.[0];
               return <li key={d.id}><b>{d.data.child} vs {d.data.parent}</b> {d.data.localized_regions} localized region(s){box ? `, box x=${box.x}, y=${box.y}, ${box.w}×${box.h}px` : ''}. <Chips ids={[d.id]} onOpen={setOpen} /></li>;
             })}</ul>
-          </details>
+          </div>
         </> : <p className="fine">No linked pairs to compare.</p>}
       </section>
       </div>
