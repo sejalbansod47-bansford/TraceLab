@@ -45,6 +45,9 @@
   --science-sky: color-mix(in oklab, var(--primary) 48%, var(--surface));
   --science-rose: color-mix(in oklab, var(--foreground) 10%, var(--surface));
   --science-outline: color-mix(in oklab, var(--foreground) 35%, var(--background));
+  --card-shadow: 2px 2px 0 var(--primary);
+  --card-shadow-hover: 0.25rem 0.25rem 0 var(--foreground);
+  --card-lift: -2px;
 }
 @layer base {
   * { box-sizing: border-box; }
@@ -293,11 +296,10 @@
 /* Pitch deck (/pitch) */
 .science-bento { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: 2.25rem; }
 .science-flip-card { position: relative; min-width: 0; height: 19rem; perspective: 75rem; transition: transform .25s ease; }
-.science-flip-card:hover, .science-flip-card:focus-within { transform: translateY(-0.375rem); }
 .science-flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
 .science-flip-card[data-flipped="true"] .science-flip-inner { transform: rotateY(180deg); }
 .science-flip-face { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 1.25rem 1.25rem 4rem; border: 1px solid var(--science-outline); border-radius: 0.5rem; background: var(--science-porcelain); backface-visibility: hidden; overflow: hidden; }
-.science-flip-card:nth-child(n + 5) { --science-porcelain: var(--foreground); --science-outline: var(--background); --science-card-ink: var(--background); --science-card-muted: var(--background); --science-card-rule: var(--background); }
+.science-flip-card:nth-child(n + 5) { --science-porcelain: var(--primary); --science-outline: var(--foreground); --science-card-ink: var(--foreground); --science-card-muted: var(--foreground); --science-card-rule: var(--border); }
 .science-flip-card:nth-child(n + 5) .science-flip-face { color: var(--science-card-ink); }
 .science-flip-card:nth-child(n + 5) .fine { color: var(--science-card-muted); }
 .science-flip-card:nth-child(n + 5) .science-flip-symbol { color: var(--science-card-ink); }
@@ -429,5 +431,26 @@
 }
 
 /* Preserve comfortable sizing on smaller screens without forcing page zoom. */
+/* Shared tactile card treatment; page bands remain unframed. */
+:is(.science-flip-card, .future-flip-card, .comparison-fold, .comparison-panel, .thumbs figure, .difference-grid figure, .picture-strip figure, .slide-card) {
+  box-shadow: var(--card-shadow);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+:is(.science-flip-card, .future-flip-card) { border-radius: 0.5rem; }
+.comparison-folds { padding: 0.125rem 0.25rem 0.25rem 0.125rem; }
+.panel-rail { padding-top: 0.25rem; padding-left: 0.125rem; }
+@media (hover: hover) and (pointer: fine) {
+  :is(.science-flip-card, .future-flip-card, .comparison-fold, .comparison-panel, .thumbs figure, .difference-grid figure, .picture-strip figure, .slide-card):hover {
+    transform: translate(var(--card-lift), var(--card-lift));
+    box-shadow: var(--card-shadow-hover);
+  }
+}
+:is(.science-flip-card, .future-flip-card, .comparison-fold, .comparison-panel, .thumbs figure, .difference-grid figure, .picture-strip figure, .slide-card):focus-within {
+  transform: translate(var(--card-lift), var(--card-lift));
+  box-shadow: var(--card-shadow-hover);
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.science-flip-card, .future-flip-card, .comparison-fold, .comparison-panel, .thumbs figure, .difference-grid figure, .picture-strip figure, .slide-card):is(:hover, :focus-within) { transform: none; }
+}
 @media (max-width: 950px) { :root { font-size: 18px; } }
 @media (max-width: 520px) { :root { font-size: 16px; } }
