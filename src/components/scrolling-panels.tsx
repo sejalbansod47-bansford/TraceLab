@@ -18,6 +18,7 @@ export function ScrollingPanels({ label, children }: { label: string; children: 
     let expanded = false;
     let frame = 0;
     let previous = 0;
+    let position = element.scrollLeft;
     const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
     observer.observe(element);
     const enter = () => { hovered = true; };
@@ -44,8 +45,11 @@ export function ScrollingPanels({ label, children }: { label: string; children: 
         if (end > 0) {
           if (element.scrollLeft >= end - 1) direction.current = -1;
           if (element.scrollLeft <= 0) direction.current = 1;
-          element.scrollLeft += direction.current * elapsed * 0.028;
+          position = Math.max(0, Math.min(end, position + direction.current * elapsed * 0.028));
+          element.scrollLeft = position;
         }
+      } else {
+        position = element.scrollLeft;
       }
       frame = requestAnimationFrame(tick);
     };
