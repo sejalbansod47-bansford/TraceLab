@@ -1,4 +1,5 @@
 # TraceLens
+- [x] Remove the Why-page block-label arrow and add space between the 02 label and "Pictures. Not identities."; verify spacing in the preview.
 - [x] Replace maroon How cards with blue and unify card lift/shadow interactions across the site; verify flips, comparison navigation and reduced motion.
 - [x] Coordinate How cards into porcelain and maroon rows; compact home family/boundary sections, remove the decorative arrow, and verify flip controls.
 - [x] Rebuild as multi-page site: /, /how, /why, /app with Linen/Dolphin/Amethyst palette.
