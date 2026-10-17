@@ -86,11 +86,13 @@
 .display { font-size: 4.1875rem; line-height: 1.02; font-weight: 400; margin: 1.875rem 0 2.375rem; letter-spacing: 0; }
 .display em { color: var(--muted-foreground); font-style: normal; }
 .intro-bottom { margin-top: auto; }
-.editorial.home { min-height: 0; }
-.home .intro-bottom { margin-top: 0; }
-.home .right-stack { grid-template-rows: auto auto; align-content: start; }
-.home .editorial-block { gap: 0.875rem; padding-top: 1.5rem; padding-bottom: 1.5rem; }
-.home .block-label { margin-bottom: 0; }
+.editorial:is(.home, .why) { min-height: 0; }
+:is(.home, .why) .intro-bottom { margin-top: 0; }
+:is(.home, .why) .right-stack { grid-template-rows: auto auto; align-content: start; }
+:is(.home, .why) .editorial-block { gap: 0.875rem; padding-top: 1.5rem; padding-bottom: 1.5rem; }
+:is(.home, .why) .block-label { margin-bottom: 0; }
+.why .display { margin-bottom: 1rem; }
+.why .proof-line { margin-top: 0; }
 .home .editorial-block > .trace-button { margin-top: 0.375rem; }
 .home .family-chain { font-size: 1.75rem; padding: 0.25rem 0; }
 .home .family-chain span { width: 1.5rem; height: 1.5rem; font-size: 1rem; }
