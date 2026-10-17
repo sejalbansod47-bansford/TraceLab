@@ -6,3 +6,4 @@
 - [x] Stop the agent log window from extending past the bottom of the main difference map image.
 - [x] Give the JSON manifest button the same download affordance as the report button.
 - [x] Replace the dense agent panel with a live orchestration diagram and collapsible activity log.
+- [x] Restore six individual comparison rectangles and animate comparison/future rows, pausing for hover and expanded Why details; verify interaction and narrow layouts.
