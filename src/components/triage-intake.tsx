@@ -227,7 +227,7 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
       </section>
 
       <section className="result-section">
-        <span className="kicker">06 · The files</span>
+        <span className="kicker">05 · The files</span>
         <div className="thumbs">{Object.entries(ev.images).map(([L, im]) => {
           const out = lin.excluded.includes(L);
           return <figure key={L} className={out ? 'out' : ''}>
@@ -246,7 +246,7 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
         </details>
       </section>
       {report?.report && <section className="result-section brief">
-        <span className="kicker">05 · The brief</span>
+        <span className="kicker">06 · The brief</span>
         <h2>{report.report.title}</h2>
         <p>{report.report.summary}</p>
         <details className="more">
