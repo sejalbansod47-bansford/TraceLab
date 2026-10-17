@@ -407,7 +407,8 @@
   .future-flip-card { flex-basis: min(18.75rem, 88%); }
 }
 @media (max-width: 650px) {
-  .comparison-folds { flex-wrap: wrap; }
+  .comparison-folds { flex-wrap: wrap; height: auto; }
+  .comparison-fold[data-active="true"] { min-height: 24rem; }
   .comparison-fold { flex: 1 1 1.5rem; }
   .comparison-fold[data-active="true"] { flex: 1 1 100%; order: 1; }
   .comparison-tab { width: 100%; flex: 1; padding: 0.75rem 0; }
