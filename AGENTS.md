@@ -17,5 +17,6 @@
 - Adapt Uiverse interaction patterns within existing shared controls and semantic CSS tokens rather than loading external scripts; retain source notices to keep the site cohesive and self-contained.
 - Render live orchestration through a dedicated agent-flow component driven by engine event trails, with raw logs collapsed by default to preserve the minimal results layout.
 - Use the shared ScrollingPanels component for Why-page horizontal rows; native scrolling pauses for hover, focus, touch, expanded details and reduced motion so explanations stay accessible.
-- Keep the tool-comparison row on Why as a static, non-animated grid showing all six cards at once (ComparisonGrid); animation belongs to the future-scope row via ScrollingPanels only, so the page does not repeat it.
+- Keep Why tool comparisons in ComparisonGrid as content-sized bordered folds with manual navigation and directly visible explanations; only the future-scope row auto-scrolls, avoiding repeated animation.
+- Use FutureFlipCard for Why future-scope explanations with accessible plus/back controls; ScrollingPanels observes flipped state to pause motion while reading.
 - Keep How-page science explanations in ScienceFlipCard with a persistent accessible toggle and scrollable reverse face; scoped bento styles avoid changing other pages.

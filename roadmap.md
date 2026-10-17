@@ -10,3 +10,4 @@
 - [x] Make How-page science points a three-column bento grid with hover lift and accessible plus-to-flip explanations; verify desktop and mobile.
 - [x] Refine science-card colours and equalise card 08; animate tool comparisons as expanding bordered panels with arrow navigation; verify both pages.
 - [x] Make tool comparisons six small static cards that fit with their title, no animation and no Why dropdown; verify desktop and narrow widths.
+- [x] Restore compact bordered comparison folds with 20px padding and manual navigation; add plus-to-flip future panels and verify both sections.
