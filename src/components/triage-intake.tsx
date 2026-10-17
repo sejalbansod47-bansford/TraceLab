@@ -142,6 +142,7 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
               <h3>Drop pictures here</h3>
               <p className="fine">PNG, JPG, or WebP · reference first</p>
               <Button variant="traceOutline" onClick={() => input.current?.click()}><Plus />choose files</Button>
+              <p className="fine drop-privacy">Pictures go only to the TraceLab engine. Claude receives measurement JSON, never the pictures.</p>
             </>}
           </div>
         </div>
