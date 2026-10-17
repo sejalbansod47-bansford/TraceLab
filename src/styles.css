@@ -77,6 +77,13 @@
 .display { font-size: 88px; line-height: 1.02; font-weight: 400; margin: 30px 0 38px; letter-spacing: 0; }
 .display em { color: var(--muted-foreground); font-style: normal; }
 .intro-bottom { margin-top: auto; }
+.intake-layout { min-height: 0; align-items: start; }
+.intake-layout .intro-bottom { margin-top: 0; }
+.intake-layout .display { margin-bottom: 18px; }
+.intake-layout .right-stack { grid-template-rows: auto; align-content: start; }
+.set-panel { margin-top: 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding-top: 16px; border-top: 1px solid var(--border); }
+.set-panel .claims-input, .set-panel .field-label, .set-panel .check { width: 100%; }
+.set-panel .trace-button { width: fit-content; }
 .lede { font-size: 17px; line-height: 1.55; margin: 0 0 22px; }
 .fine { font-size: 11px; line-height: 1.6; color: var(--muted-foreground); }
 .picture-strip { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin: 0 0 20px; }
@@ -204,20 +211,14 @@
 .state.vetoed { background: var(--foreground); color: var(--background); }
 @keyframes pulse { 50% { opacity: .55; } }
 .trail { line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.orchestration { position: relative; width: min(100%, 360px); height: 440px; margin: 4px 0 0; flex: none; }
-.orchestration-links { position: absolute; inset: 0; width: 100%; height: 400px; fill: none; stroke: var(--border); stroke-width: 1.2; }
-.orchestration-arrow { stroke: var(--foreground); }
-.orchestration-node { position: absolute; width: 33.333%; display: flex; align-items: center; flex-direction: column; gap: 3px; text-align: center; }
-.orchestration-coordinator { top: 0; left: 33.333%; }
-.orchestration-provenance { top: 120px; left: 0; }
-.orchestration-lineage { top: 120px; left: 33.333%; }
-.orchestration-visual { top: 120px; left: 66.666%; }
-.orchestration-sceptic { top: 240px; left: 33.333%; }
-.orchestration-report { top: 350px; left: 33.333%; }
-.orchestration-symbol { position: relative; display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--border); border-radius: 50%; background: var(--background); transition: background .25s, border-color .25s; }
-.orchestration-node strong { font-size: 12px; font-weight: 600; line-height: 1.4; }
-.orchestration-role { font-size: 10px; line-height: 1.4; color: var(--muted-foreground); }
-.orchestration-state { font-size: 9px; line-height: 1.4; text-transform: uppercase; color: var(--muted-foreground); }
+.orchestration { width: 100%; height: auto; margin: 12px 0 0; display: flex; align-items: flex-start; justify-content: space-between; gap: 4px; }
+.orchestration-join { flex: none; margin-top: 22px; color: var(--primary); }
+.orchestration-node { position: static; width: auto; flex: 1 1 0; min-width: 0; display: flex; align-items: center; flex-direction: column; gap: 6px; text-align: center; }
+.orchestration-symbol { position: relative; display: grid; place-items: center; width: 68px; height: 68px; border: 1px solid var(--border); border-radius: 50%; background: var(--background); transition: background .25s, border-color .25s; }
+.orchestration-node strong { font-size: 15px; font-weight: 600; line-height: 1.3; }
+@media (max-width: 760px) { .orchestration { flex-wrap: wrap; row-gap: 18px; } .orchestration-symbol { width: 56px; height: 56px; } .orchestration-join { margin-top: 16px; } }
+.orchestration-role { font-size: 12px; line-height: 1.35; color: var(--muted-foreground); }
+.orchestration-state { font-size: 11px; line-height: 1.3; text-transform: uppercase; color: var(--muted-foreground); }
 .orchestration-node[data-state="running"] .orchestration-symbol, .orchestration-node[data-state="retrying"] .orchestration-symbol { background: var(--accent-wash); border-color: var(--foreground); }
 .orchestration-node[data-state="done"] .orchestration-symbol, .orchestration-node[data-state="recovered"] .orchestration-symbol { background: var(--primary); border-color: var(--foreground); }
 .orchestration-node[data-state="vetoed"] .orchestration-symbol, .orchestration-node[data-state="malformed"] .orchestration-symbol { background: var(--foreground); color: var(--background); }

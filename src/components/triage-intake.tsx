@@ -144,18 +144,17 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
               <Button variant="traceOutline" onClick={() => input.current?.click()}><Plus />choose files</Button>
             </>}
           </div>
+          <section className="set-panel">
+            <div className="block-label"><span className="tag">01 / Your set</span><span className="fine">{demo ? 5 : files.length} pictures ready</span></div>
+            <label className="field-label" htmlFor="claims">Claims to check (optional, one per line — the sceptic judges them)</label>
+            <textarea id="claims" className="claims-input" value={claims} onChange={e => setClaims(e.target.value)} placeholder="e.g. The cup was always on the table." disabled={busy} />
+            <label className="check"><input type="checkbox" checked={forceMalformed} onChange={e => setForceMalformed(e.target.checked)} disabled={busy} /> Force one broken agent reply (recovery demo)</label>
+            <Button variant="traceOutline" size="sm" onClick={useDemo} disabled={busy}><Plus />use synthetic A–E</Button>
+            {notice && <p className="notice" role="alert">{notice}</p>}
+          </section>
         </div>
       </div>
       <div className="right-stack">
-        <section className="editorial-block">
-          <div className="block-label"><span className="tag">01 / Your set</span><span className="fine">Reference first</span></div>
-          <div className="big-stat">{String(demo ? 5 : files.length).padStart(2, '0')}<span>pictures ready.</span></div>
-          <label className="field-label" htmlFor="claims">Claims to check (optional, one per line — the sceptic judges them)</label>
-          <textarea id="claims" className="claims-input" value={claims} onChange={e => setClaims(e.target.value)} placeholder="e.g. The cup was always on the table." disabled={busy} />
-          <label className="check"><input type="checkbox" checked={forceMalformed} onChange={e => setForceMalformed(e.target.checked)} disabled={busy} /> Force one broken agent reply (recovery demo)</label>
-          <Button variant="traceOutline" onClick={useDemo} disabled={busy}><Plus />use synthetic A–E</Button>
-          {notice && <p className="notice" role="alert">{notice}</p>}
-        </section>
         <section className="editorial-block">
           <div className="block-label"><span className="tag">02 / First pass</span><span className="fine">{phase === 'done' ? `Brief ready · ${runInfo}` : phase === 'measuring' ? 'Measuring pixels…' : phase === 'agents' ? 'Agents working…' : phase === 'error' ? 'Stopped' : 'Awaiting triage'}</span></div>
           <h2 className="statement">Measure.<br /><span>Then question.</span></h2>
