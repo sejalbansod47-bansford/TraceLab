@@ -246,19 +246,26 @@
 .sci:nth-child(even) { padding: 26px 0 28px 28px; border-left: 1px solid var(--border); }
 .sci h3 { margin: 0; font-size: 22px; font-weight: 500; }
 .sci p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--muted-foreground); max-width: 60ch; }
-.point-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 28px; align-items: start; }
-.point-card { margin: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 18px 18px 16px; background: var(--surface); border: 2px solid var(--foreground); border-radius: 12px; box-shadow: 4px 4px 0 var(--primary); }
-.point-card:nth-child(even) { box-shadow: 4px 4px 0 var(--foreground); }
-.point-card h3 { margin: 0; font-size: 28px; font-weight: 500; line-height: 1.15; }
-.point-card .short { margin: 0; font-size: 18px; line-height: 1.4; color: var(--foreground); }
-.point-list { list-style: none; margin: 0; padding: 0; width: 100%; display: flex; flex-direction: column; gap: 0; }
-.point-list li { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 18px 0; border-top: 1px solid var(--border); }
-.point-list li:first-child { padding-top: 0; border-top: 0; }
-.point-list li:last-child { padding-bottom: 0; }
-.point-card .more { margin-top: 2px; }
-.point-card .more p { margin: 0 0 10px; font-size: 16px; line-height: 1.55; color: var(--muted-foreground); max-width: 52ch; }
-.point-card .more p b { color: var(--foreground); font-weight: 600; }
-@media (max-width: 760px) { .point-grid { grid-template-columns: 1fr; } .point-card h3 { font-size: 24px; } }
+.scrolling-panels { margin-top: 26px; min-width: 0; }
+.panel-navigation { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 18px; }
+.panel-navigation > button { border: 1px solid var(--border); border-radius: 4px; color: var(--foreground); }
+.panel-navigation > button:hover { background: var(--primary); border-color: var(--foreground); }
+.panel-rail { display: flex; gap: 24px; overflow-x: auto; align-items: stretch; padding: 4px 8px 20px 0; scrollbar-width: thin; scrollbar-color: var(--border) transparent; overscroll-behavior-x: contain; }
+.panel-rail:focus-visible { outline: 2px solid var(--primary); outline-offset: 6px; }
+.comparison-panel { flex: 0 0 360px; min-width: 0; min-height: 370px; margin: 0; padding: 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 22px; border: 1px solid var(--foreground); border-radius: 6px; background: var(--surface); box-shadow: var(--control-accent-shadow); }
+.comparison-panel:nth-child(3n + 2) { background: var(--accent-wash); box-shadow: var(--control-shadow); }
+.comparison-panel:nth-child(3n) { background: var(--background); }
+.panel-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; width: 100%; min-height: 54px; }
+.panel-heading .kicker { max-width: 24ch; font-size: 11px; }
+.panel-number { font-size: 14px; color: var(--muted-foreground); font-variant-numeric: tabular-nums; }
+.comparison-panel h3 { margin: 0; font-size: 30px; font-weight: 500; line-height: 1.15; }
+.comparison-panel .short { margin: 0; font-size: 17px; line-height: 1.5; color: var(--muted-foreground); }
+.comparison-panel .more { margin-top: auto; width: 100%; border-top: 1px solid var(--border); padding-top: 16px; }
+.comparison-panel .more summary { font-size: 15px; }
+.comparison-panel .more summary:focus-visible { outline: 2px solid var(--foreground); outline-offset: 4px; }
+.comparison-panel .more p { margin: 16px 0 0; font-size: 15px; line-height: 1.6; color: var(--muted-foreground); }
+.comparison-panel .more p b { color: var(--foreground); font-weight: 600; }
+@media (max-width: 760px) { .panel-rail { gap: 18px; } .comparison-panel { flex-basis: min(320px, 88%); padding: 24px; min-height: 350px; } .comparison-panel h3 { font-size: 26px; } }
 .sci .limit { font-size: 12px; border-left: 3px solid var(--primary); padding-left: 10px; }
 .sci .limit b { color: var(--foreground); font-weight: 600; }
 .sci .sci-label { color: var(--foreground); font-weight: 600; }
