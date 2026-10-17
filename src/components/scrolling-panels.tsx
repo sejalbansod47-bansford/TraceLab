@@ -19,7 +19,7 @@ export function ScrollingPanels({ label, children }: { label: string; children: 
     let frame = 0;
     let previous = 0;
     let position = element.scrollLeft;
-    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
+    const observer = new IntersectionObserver(([entry]) => { visible = entry?.isIntersecting ?? false; });
     observer.observe(element);
     const enter = () => { hovered = true; };
     const leave = () => { hovered = false; };
