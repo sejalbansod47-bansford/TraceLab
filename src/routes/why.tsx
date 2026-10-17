@@ -3,6 +3,7 @@ import { Header, Footer, PictureStrip, AppLink } from '@/components/site';
 import { Check, ArrowUpRight } from 'lucide-react';
 import { ScrollingPanels } from '@/components/scrolling-panels';
 import { ComparisonGrid } from '@/components/comparison-grid';
+import { FutureFlipCard } from '@/components/future-flip-card';
 export const Route = createFileRoute('/why')({ head: () => ({ meta: [
   { title: 'why TraceLab: inside the folder, not the internet' }, { name: 'description', content: 'How TraceLab differs technically from single-image forensics, error-level analysis, reverse search, fakeness detectors and capture provenance, and where it is going next.' },
   { property: 'og:title', content: 'inside the folder. not the internet.' }, { property: 'og:description', content: 'Efficient, ethical, checkable picture triage for human experts.' },
@@ -69,14 +70,7 @@ function Future() {
       <h2 id="future-title" className="display science-title">Next: AI-generated pictures.<br /><em>Same rules.</em></h2>
       <p className="lede">Today TraceLab compares versions. It does not say whether a picture was AI-generated.</p>
     </div>
-    <ScrollingPanels label="Future scope">{future.map(([tag, title, body, limit], i) => <article className="comparison-panel" key={tag}>
-      <div className="panel-heading"><span className="kicker">{tag.slice(5)}</span><span className="panel-number">{String(i + 1).padStart(2, '0')}</span></div><h3>{title}</h3>
-      <details className="more">
-        <summary>Why</summary>
-        <p>{body}</p>
-        <p><b>Known limit.</b> {limit}</p>
-      </details>
-    </article>)}</ScrollingPanels>
+    <ScrollingPanels label="Future scope">{future.map(([tag, title, body, limit], i) => <FutureFlipCard key={tag} tag={tag.slice(5)} title={title} body={body} limit={limit} index={i} />)}</ScrollingPanels>
   </section>;
 }
 

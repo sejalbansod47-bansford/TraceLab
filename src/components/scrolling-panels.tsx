@@ -27,7 +27,9 @@ export function ScrollingPanels({ label, children }: { label: string; children: 
     const touchEnd = () => { touching = false; };
     const focus = () => { focused = true; };
     const blur = (event: FocusEvent) => { focused = event.relatedTarget instanceof Node && element.contains(event.relatedTarget); };
-    const toggle = () => { expanded = Boolean(element.querySelector('details[open]')); };
+    const toggle = () => { expanded = Boolean(element.querySelector('details[open], [data-flipped="true"]')); };
+    const flips = new MutationObserver(toggle);
+    flips.observe(element, { subtree: true, attributes: true, attributeFilter: ['data-flipped'] });
     element.addEventListener('pointerenter', enter);
     element.addEventListener('pointerleave', leave);
     element.addEventListener('touchstart', touchStart, { passive: true });
@@ -57,6 +59,7 @@ export function ScrollingPanels({ label, children }: { label: string; children: 
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
+      flips.disconnect();
       element.removeEventListener('pointerenter', enter);
       element.removeEventListener('pointerleave', leave);
       element.removeEventListener('touchstart', touchStart);
