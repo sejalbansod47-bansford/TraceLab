@@ -11,6 +11,7 @@
 
 ## Application rules
 - The /app page is a real client of the TraceLab engine (Python pipeline + Claude Agent SDK) via src/lib/tracelab-api.ts; base URL from VITE_TRACELAB_API. Never fake results in the UI.
+- Load public trial pictures through the ordered asset manifest in src/lib/trial-data.ts and submit them through the ordinary file intake, so examples use the same engine as visitor uploads.
 - Uploaded pictures go only to the TraceLab engine; Claude receives measurement JSON, never pictures. Show the synthetic/private mode banner on /app.
 - Each marketing section is its own route (/, /how, /why, /app) sharing Header/Footer from src/components/site.tsx.
 - Use shared site controls and global semantic CSS tokens for the editorial layouts; marketing pages pair an unframed introduction with two stacked content sections to keep presentation consistent.

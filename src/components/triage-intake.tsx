@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { ArrowRight, Download, Loader2, Plus, Upload, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AgentOrchestration } from '@/components/agent-orchestration';
+import { loadTrialPictures } from '@/lib/trial-data';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import {
   AGENTS, API_BASE, createCase, fileUrl, getEvidence, getReport, openEvents, originalUrl, reportUrl, validateSelection,
@@ -24,6 +25,7 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
   const input = useRef<HTMLInputElement>(null);
   const esRef = useRef<EventSource | null>(null);
   const [demo, setDemo] = useState(startLoaded);
+  const [loadingTrial, setLoadingTrial] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [phase, setPhase] = useState<Phase>('idle');
@@ -44,9 +46,10 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
 
   const evIndex: Record<string, EvidenceItem> = Object.fromEntries((ev?.evidence ?? []).map(x => [x.id, x]));
   const loaded = demo || files.length > 0;
-  const busy = phase === 'measuring' || phase === 'agents';
+  const busy = loadingTrial || phase === 'measuring' || phase === 'agents';
 
   function selectFiles(list: File[]) {
+    if (busy) return;
     const err = validateSelection(list);
     if (err) { setNotice(err); return; }
     previews.forEach(URL.revokeObjectURL);
@@ -56,6 +59,17 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
   }
   function clear() { previews.forEach(URL.revokeObjectURL); setFiles([]); setPreviews([]); setDemo(false); setPhase('idle'); }
   function useDemo() { clear(); setDemo(true); setClaims(DEMO_CLAIMS); setNotice(''); }
+
+  async function useTrial() {
+    setLoadingTrial(true); setNotice('');
+    try {
+      const pictures = await loadTrialPictures();
+      selectFiles(pictures);
+      setClaims('');
+    } catch (err) {
+      setNotice(err instanceof Error ? err.message : 'Could not load the trial pictures. Please try again.');
+    } finally { setLoadingTrial(false); }
+  }
 
   function setState(agent: string, state: string, extra?: string) {
     setTrails(t => {
@@ -153,7 +167,10 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
           <label className="field-label" htmlFor="claims">Claims to check (optional, one per line. The sceptic judges them)</label>
           <textarea id="claims" className="claims-input" value={claims} onChange={e => setClaims(e.target.value)} placeholder="e.g. The cup was always on the table." disabled={busy} />
           <label className="check"><input type="checkbox" checked={forceMalformed} onChange={e => setForceMalformed(e.target.checked)} disabled={busy} /> Force one broken agent reply (recovery demo)</label>
-          <Button variant="traceOutline" size="sm" onClick={useDemo} disabled={busy}><Plus />use synthetic A–E</Button>
+          <div className="demo-actions">
+            <Button variant="traceOutline" size="sm" onClick={useDemo} disabled={busy} title="Five computer-generated example pictures bundled with the engine"><Plus />use synthetic A–E</Button>
+            <Button variant="traceOutline" size="sm" onClick={useTrial} disabled={busy}>{loadingTrial ? <Loader2 className="spin" /> : <Plus />}{loadingTrial ? 'loading trial data' : 'use trial data A–D'}</Button>
+          </div>
           {notice && <p className="notice" role="alert">{notice}</p>}
         </section>
         <section className="editorial-block">
