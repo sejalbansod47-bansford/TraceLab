@@ -1,5 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { Header, Footer, PictureStrip, AppLink } from '@/components/site';
+import { Fingerprint, FileText, ScanLine, Focus, Layers, GitBranch, ShieldCheck, Network } from 'lucide-react';
+import { ScienceFlipCard } from '@/components/science-flip-card';
 export const Route = createFileRoute('/how')({ head: () => ({ meta: [
   { title: 'how TraceLab works: four steps' }, { name: 'description', content: 'Drop copies, code measures once, three specialists at once, a sceptic can say no.' },
   { property: 'og:title', content: 'how TraceLab works' }, { property: 'og:description', content: 'Measured once. Interpreted in parallel. Checked by a sceptic.' },
@@ -38,6 +40,8 @@ const science: [string, string, string, string][] = [
    'Language models can still word things badly; that is why every sentence carries an id you can open, and the sceptic must pass it first.'],
 ];
 
+const scienceIcons = [Fingerprint, FileText, ScanLine, Focus, Layers, GitBranch, ShieldCheck, Network];
+
 function Science() {
   return <section className="science" aria-labelledby="science-title">
     <div className="science-head">
@@ -45,17 +49,7 @@ function Science() {
       <h2 id="science-title" className="display science-title">Standard, published techniques.<br /><em>No black box.</em></h2>
       <p className="lede">Ordinary open-source image science. OpenCV, imagehash, Python’s hashlib. Plain code, same answer every time.</p>
     </div>
-    <div className="point-grid">{[science.slice(0, 4), science.slice(4)].map((col, i) => <article className="point-card" key={i}>
-      <ul className="point-list">{col.map(([tech, title, body, limit]) => <li key={tech}>
-        <span className="tag">{tech}</span>
-        <h3>{title}</h3>
-        <details className="more">
-          <summary>Why</summary>
-          <p>{body}</p>
-          <p><b>What it can’t do.</b> {limit}</p>
-        </details>
-      </li>)}</ul>
-    </article>)}</div>
+    <div className="science-bento">{science.map(([tech, title, body, limit], index) => <ScienceFlipCard key={tech} tech={tech} title={title} body={body} limit={limit} index={index} icon={scienceIcons[index] ?? Fingerprint} />)}</div>
   </section>;
 }
 
