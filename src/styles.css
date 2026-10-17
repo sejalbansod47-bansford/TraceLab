@@ -364,15 +364,49 @@
 .pitch-count { font-variant-numeric: tabular-nums; font-weight: 600; letter-spacing: .08em; min-width: 52px; text-align: center; }
 .footer-pitch { margin-left: 24px; text-decoration: underline; text-underline-offset: 3px; }
 
-/* Why — tool comparisons, all six shown at once */
-.comparison-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 24px; }
-.comparison-cell { min-width: 0; margin: 0; padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 12px; border: 1px solid var(--foreground); border-radius: 6px; background: var(--surface); box-shadow: var(--control-accent-shadow); }
-.comparison-cell:nth-child(3n + 2) { background: var(--accent-wash); box-shadow: var(--control-shadow); }
-.comparison-cell:nth-child(3n) { background: var(--background); }
-.comparison-cell-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-.comparison-cell-head .kicker { max-width: 20ch; font-size: 10px; line-height: 1.5; }
-.comparison-number { font-size: 12px; color: var(--muted-foreground); font-variant-numeric: tabular-nums; }
-.comparison-cell h3 { margin: 0; font-size: 21px; font-weight: 500; line-height: 1.2; }
-.comparison-cell .short { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted-foreground); }
-@media (max-width: 900px) { .comparison-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 620px) { .comparison-grid { grid-template-columns: 1fr; gap: 12px; } .comparison-cell h3 { font-size: 24px; } }
+/* Why — compact manual comparison folds */
+.comparison-switcher { margin-top: 20px; max-width: 1100px; }
+.comparison-count { margin-right: auto; align-self: center; font-size: 12px; color: var(--muted-foreground); font-variant-numeric: tabular-nums; }
+.comparison-folds { display: flex; gap: 8px; align-items: stretch; }
+.comparison-fold { display: flex; flex: 0 0 42px; min-width: 0; border: 1px solid var(--foreground); border-radius: 6px; overflow: hidden; background: var(--surface); }
+.comparison-fold[data-active="true"] { flex: 1 1 0; }
+.comparison-tab { flex: 0 0 40px; width: 40px; height: auto; padding: 20px 0; border-radius: 0; background: var(--accent-wash); display: flex; flex-direction: column; justify-content: space-between; gap: 16px; font-size: 11px; }
+.comparison-tab:hover { background: var(--science-sky); }
+.comparison-tab-title { writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; font-size: 12px; }
+.comparison-fold[data-active="true"] .comparison-tab { border-right: 1px solid var(--border); }
+.comparison-reading { flex: 1; min-width: 0; padding: 20px; }
+.comparison-reading .kicker { font-size: 10px; }
+.comparison-reading h3 { font-size: 28px; line-height: 1.2; font-weight: 400; margin: 14px 0 12px; }
+.comparison-reading .short { margin: 0 0 16px; font-size: 16px; line-height: 1.5; color: var(--muted-foreground); }
+.comparison-explanation { border-top: 1px solid var(--border); padding-top: 16px; display: flex; flex-direction: column; gap: 14px; }
+.comparison-explanation p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--muted-foreground); }
+.comparison-explanation b { color: var(--foreground); font-weight: 600; }
+/* Future scope — same flip interaction as How, retaining the scrolling rail */
+.future-flip-card { flex: 0 0 320px; min-width: 0; height: 300px; position: relative; perspective: 1200px; }
+.future-flip-card[data-flipped="true"] .science-flip-inner { transform: rotateY(180deg); }
+.future-flip-face { position: absolute; inset: 0; padding: 20px; border: 1px solid var(--foreground); border-radius: 6px; background: var(--surface); backface-visibility: hidden; overflow: hidden; display: flex; flex-direction: column; gap: 20px; }
+.future-flip-card:nth-child(3n + 2) .future-flip-face { background: var(--accent-wash); }
+.future-flip-card:nth-child(3n) .future-flip-face { background: var(--background); }
+.future-flip-face .panel-heading { min-height: 0; }
+.future-flip-face h3 { margin: 0; font-size: 27px; line-height: 1.2; font-weight: 500; }
+.future-flip-back { transform: rotateY(180deg); padding-bottom: 70px; }
+.future-flip-reading { overflow-y: auto; min-height: 0; scrollbar-width: thin; scrollbar-color: var(--border) transparent; overscroll-behavior: contain; }
+.future-flip-reading p { margin: 14px 0 0; font-size: 14px; line-height: 1.6; color: var(--muted-foreground); }
+.future-flip-reading b { color: var(--foreground); }
+@media (max-width: 760px) {
+  .comparison-folds { gap: 4px; }
+  .comparison-fold { flex-basis: 24px; }
+  .comparison-tab { flex-basis: 22px; width: 22px; }
+  .comparison-tab-title, .comparison-tab > svg { display: none; }
+  .comparison-fold[data-active="true"] .comparison-tab { display: none; }
+  .comparison-reading h3 { font-size: 24px; }
+  .comparison-reading .short { font-size: 14px; }
+  .comparison-explanation p { font-size: 13px; }
+  .future-flip-card { flex-basis: min(300px, 88%); }
+}
+@media (max-width: 520px) {
+  .comparison-folds { flex-wrap: wrap; }
+  .comparison-fold { flex: 1 1 24px; }
+  .comparison-fold[data-active="true"] { flex: 1 1 100%; order: 1; }
+  .comparison-tab { width: 100%; flex: 1; padding: 12px 0; }
+}
