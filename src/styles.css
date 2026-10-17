@@ -41,7 +41,7 @@
   --control-accent-shadow-hover: 0.3125rem 0.3125rem 0 var(--primary);
   --label-shadow: 2px 2px 0 var(--primary);
   --accent-wash: color-mix(in oklab, var(--primary) 16%, var(--background));
-  --science-porcelain: color-mix(in oklab, var(--background) 35%, white);
+  --science-porcelain: #F6EEDB;
   --science-sky: color-mix(in oklab, var(--primary) 48%, var(--surface));
   --card-blue: color-mix(in oklab, var(--primary) 32%, var(--surface));
   --card-blue-active: color-mix(in oklab, var(--primary) 48%, var(--surface));
