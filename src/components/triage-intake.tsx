@@ -122,7 +122,7 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
 
   return <section>
     <div className={`mode-banner ${synthetic ? '' : 'private'}`} role="status">
-      {synthetic ? 'SYNTHETIC DEMO DATA ONLY — no real media' : 'Private set — no identity matching · triage for a human expert, not a verdict'}
+      {synthetic ? 'SYNTHETIC DEMO DATA ONLY. No real media' : 'Private set. No identity matching. Triage for a human expert, not a verdict'}
     </div>
     <div className="editorial intake-layout">
       <div className="intro">
@@ -144,17 +144,17 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
               <Button variant="traceOutline" onClick={() => input.current?.click()}><Plus />choose files</Button>
             </>}
           </div>
-          <section className="set-panel">
-            <div className="block-label"><span className="tag">01 / Your set</span><span className="fine">{demo ? 5 : files.length} pictures ready</span></div>
-            <label className="field-label" htmlFor="claims">Claims to check (optional, one per line — the sceptic judges them)</label>
-            <textarea id="claims" className="claims-input" value={claims} onChange={e => setClaims(e.target.value)} placeholder="e.g. The cup was always on the table." disabled={busy} />
-            <label className="check"><input type="checkbox" checked={forceMalformed} onChange={e => setForceMalformed(e.target.checked)} disabled={busy} /> Force one broken agent reply (recovery demo)</label>
-            <Button variant="traceOutline" size="sm" onClick={useDemo} disabled={busy}><Plus />use synthetic A–E</Button>
-            {notice && <p className="notice" role="alert">{notice}</p>}
-          </section>
         </div>
       </div>
       <div className="right-stack">
+        <section className="editorial-block set-panel">
+          <div className="block-label"><span className="tag">01 / Your set</span><span className="fine">{demo ? 5 : files.length} pictures ready</span></div>
+          <label className="field-label" htmlFor="claims">Claims to check (optional, one per line. The sceptic judges them)</label>
+          <textarea id="claims" className="claims-input" value={claims} onChange={e => setClaims(e.target.value)} placeholder="e.g. The cup was always on the table." disabled={busy} />
+          <label className="check"><input type="checkbox" checked={forceMalformed} onChange={e => setForceMalformed(e.target.checked)} disabled={busy} /> Force one broken agent reply (recovery demo)</label>
+          <Button variant="traceOutline" size="sm" onClick={useDemo} disabled={busy}><Plus />use synthetic A–E</Button>
+          {notice && <p className="notice" role="alert">{notice}</p>}
+        </section>
         <section className="editorial-block">
           <div className="block-label"><span className="tag">02 / First pass</span><span className="fine">{phase === 'done' ? `Brief ready · ${runInfo}` : phase === 'measuring' ? 'Measuring pixels…' : phase === 'agents' ? 'Agents working…' : phase === 'error' ? 'Stopped' : 'Awaiting triage'}</span></div>
           <h2 className="statement">Measure.<br /><span>Then question.</span></h2>
@@ -218,10 +218,10 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
       <section className="result-section">
         <span className="kicker">04 · Thrown out</span>
         {sceptic ? <>
-          <p className="fine">Veto {sceptic.veto ?? '—'} · {sceptic.accepted.length} kept · {sceptic.rejected.length} thrown out.</p>
+          <p className="fine">Veto {sceptic.veto ?? 'none'} · {sceptic.accepted.length} kept · {sceptic.rejected.length} thrown out.</p>
           {sceptic.rejected.length > 0 && <details className="more">
             <summary>What was thrown out</summary>
-            <ul className="rejected">{sceptic.rejected.map((r, i) => <li key={i}><span className="claim">{r.text}</span> <span className="fine">— {r.source}: {r.reason}</span> <Chips ids={r.evidence_ids} onOpen={setOpen} /></li>)}</ul>
+            <ul className="rejected">{sceptic.rejected.map((r, i) => <li key={i}><span className="claim">{r.text}</span> <span className="fine">{r.source}: {r.reason}</span> <Chips ids={r.evidence_ids} onOpen={setOpen} /></li>)}</ul>
           </details>}
         </> : <p className="fine">The sceptic runs after the three analysts.</p>}
       </section>
@@ -262,7 +262,7 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
     <Dialog open={open !== null} onOpenChange={o => { if (!o) setOpen(null); }}>
       <DialogContent>
         <DialogHeader><DialogTitle>{open}{openItem ? ` · ${openItem.kind}` : ''}</DialogTitle>
-          <DialogDescription>{openItem ? openItem.note : open?.startsWith('LIN') ? 'Lineage hypothesis' : 'Not in evidence.json — a sceptic should reject this citation.'}</DialogDescription></DialogHeader>
+          <DialogDescription>{openItem ? openItem.note : open?.startsWith('LIN') ? 'Lineage hypothesis' : 'Not in evidence.json. A sceptic should reject this citation.'}</DialogDescription></DialogHeader>
         <pre className="ev-data">{JSON.stringify(openItem ? openItem.data : open?.startsWith('LIN') ? lin : {}, null, 2)}</pre>
       </DialogContent>
     </Dialog>

@@ -8,7 +8,7 @@ export const Route = createFileRoute('/app')({
     ...(typeof s['replay'] === 'string' && /^[a-z0-9-]{3,40}$/.test(s['replay']) ? { replay: s['replay'] } : {}),
   }),
   head: () => ({ meta: [
-    { title: 'TraceLab app — run a triage' },
+    { title: 'TraceLab app: run a triage' },
     { name: 'description', content: 'Drop PNG, JPG or WebP copies, or use synthetic A–E, and run a first-pass triage.' },
     { property: 'og:title', content: 'TraceLab app' },
     { property: 'og:description', content: 'Lineage, changes, and what the sceptic rejected.' },

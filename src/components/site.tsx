@@ -15,7 +15,7 @@ export function Footer() {
   return <footer className="footer"><p>TraceLab · triage for a human expert, not a verdict.</p><p>SHA-256 is fixity, not truth. <Link to="/pitch" className="footer-pitch">Pitch</Link><span className="footer-mark">© TraceLab</span></p></footer>;
 }
 export function PictureStrip() {
-  return <div className="picture-strip" aria-label="Synthetic reference and two edited copies">{[['A', original, 'Reference'], ['C', crop, 'Framing'], ['D', tone, 'Tone']].map(([id, src, label]) => <figure key={id}><img src={src} alt={`Synthetic courtyard — ${label}`} width={1536} height={1024} /><figcaption><b>{id}</b><span>{label}</span></figcaption></figure>)}</div>;
+  return <div className="picture-strip" aria-label="Synthetic reference and two edited copies">{[['A', original, 'Reference'], ['C', crop, 'Framing'], ['D', tone, 'Tone']].map(([id, src, label]) => <figure key={id}><img src={src} alt={`Synthetic courtyard, ${label}`} width={1536} height={1024} /><figcaption><b>{id}</b><span>{label}</span></figcaption></figure>)}</div>;
 }
 export function AppLink({ demo = false }: { demo?: boolean }) {
   return <Button asChild variant={demo ? 'traceOutline' : 'trace'}><Link to="/app" search={demo ? { demo: true } : {}}>{demo ? 'Use synthetic A–E' : 'Try it with your pictures'}<ArrowRight size={18} /></Link></Button>;
