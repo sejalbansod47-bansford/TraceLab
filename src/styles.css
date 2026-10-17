@@ -83,6 +83,16 @@
 .display { font-size: 4.1875rem; line-height: 1.02; font-weight: 400; margin: 1.875rem 0 2.375rem; letter-spacing: 0; }
 .display em { color: var(--muted-foreground); font-style: normal; }
 .intro-bottom { margin-top: auto; }
+.editorial.home { min-height: 0; }
+.home .intro-bottom { margin-top: 0; }
+.home .right-stack { grid-template-rows: auto auto; align-content: start; }
+.home .editorial-block { gap: 0.875rem; padding-top: 1.5rem; padding-bottom: 1.5rem; }
+.home .block-label { margin-bottom: 0; }
+.home .editorial-block > .trace-button { margin-top: 0.375rem; }
+.home .family-chain { font-size: 1.75rem; padding: 0.25rem 0; }
+.home .family-chain span { width: 1.5rem; height: 1.5rem; font-size: 1rem; }
+.home .big-stat { font-size: 2rem; margin: 0; gap: 0.75rem; }
+.home .big-stat > span { font-size: 1rem; }
 .intake-layout { min-height: 0; align-items: start; }
 .intake-layout .intro-bottom { margin-top: 2.25rem; }
 .intake-layout .display { margin-bottom: 0.5rem; }
@@ -287,8 +297,12 @@
 .science-flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
 .science-flip-card[data-flipped="true"] .science-flip-inner { transform: rotateY(180deg); }
 .science-flip-face { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 1.25rem 1.25rem 4rem; border: 1px solid var(--science-outline); border-radius: 0.5rem; background: var(--science-porcelain); backface-visibility: hidden; overflow: hidden; }
-.science-flip-card:is(:nth-child(2), :nth-child(6), :nth-child(7)) .science-flip-face { background: var(--science-sky); }
-.science-flip-card:is(:nth-child(3), :nth-child(4), :nth-child(8)) .science-flip-face { background: var(--science-rose); }
+.science-flip-card:nth-child(n + 5) { --science-porcelain: var(--foreground); --science-outline: var(--background); --science-card-ink: var(--background); --science-card-muted: var(--background); --science-card-rule: var(--background); }
+.science-flip-card:nth-child(n + 5) .science-flip-face { color: var(--science-card-ink); }
+.science-flip-card:nth-child(n + 5) .fine { color: var(--science-card-muted); }
+.science-flip-card:nth-child(n + 5) .science-flip-symbol { color: var(--science-card-ink); }
+.science-flip-card:nth-child(n + 5) .science-flip-limit { border-color: var(--science-card-rule); }
+.science-flip-card:nth-child(n + 5) .science-flip-reading { scrollbar-color: var(--science-card-ink) transparent; }
 .science-flip-label { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
 .science-flip-label .kicker { font-size: 0.6875rem; max-width: 28ch; }
 .science-flip-label .fine { font-size: 0.75rem; }
