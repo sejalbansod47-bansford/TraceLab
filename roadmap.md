@@ -7,4 +7,4 @@
 - [x] Give the JSON manifest button the same download affordance as the report button.
 - [x] Replace the dense agent panel with a live orchestration diagram and collapsible activity log.
 - [x] Restore six individual comparison rectangles and animate comparison/future rows, pausing for hover and expanded Why details; verify interaction and narrow layouts.
-- [ ] Make How-page science points a three-column bento grid with hover lift and accessible plus-to-flip explanations; verify desktop and mobile.
+- [x] Make How-page science points a three-column bento grid with hover lift and accessible plus-to-flip explanations; verify desktop and mobile.
