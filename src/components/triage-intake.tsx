@@ -1,8 +1,10 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { ArrowRight, Download, Loader2, Plus, Upload, X } from 'lucide-react';
+import { ArrowRight, CircleHelp, Download, Loader2, Plus, Upload, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AgentOrchestration } from '@/components/agent-orchestration';
 import { loadTrialPictures } from '@/lib/trial-data';
+import { loadStegoPictures } from '@/lib/stego-data';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import {
   AGENTS, API_BASE, createCase, fileUrl, getEvidence, getReport, openEvents, originalUrl, reportUrl, validateSelection,
@@ -26,6 +28,7 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
   const esRef = useRef<EventSource | null>(null);
   const [demo, setDemo] = useState(startLoaded);
   const [loadingTrial, setLoadingTrial] = useState(false);
+  const [loadingStego, setLoadingStego] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [phase, setPhase] = useState<Phase>('idle');
@@ -46,7 +49,7 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
 
   const evIndex: Record<string, EvidenceItem> = Object.fromEntries((ev?.evidence ?? []).map(x => [x.id, x]));
   const loaded = demo || files.length > 0;
-  const busy = loadingTrial || phase === 'measuring' || phase === 'agents';
+  const busy = loadingTrial || loadingStego || phase === 'measuring' || phase === 'agents';
 
   function selectFiles(list: File[]) {
     if (busy) return;
@@ -70,6 +73,17 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
       setNotice(err instanceof Error ? err.message : 'Could not load the trial pictures. Please try again.');
     } finally { setLoadingTrial(false); }
   }
+  async function useStego() {
+    setLoadingStego(true); setNotice('');
+    try {
+      const pictures = await loadStegoPictures();
+      selectFiles(pictures);
+      setClaims('B has a whole file hidden after the JPEG end marker.');
+    } catch (err) {
+      setNotice(err instanceof Error ? err.message : 'Could not load the stego demo pictures. Please try again.');
+    } finally { setLoadingStego(false); }
+  }
+
 
   function setState(agent: string, state: string, extra?: string) {
     setTrails(t => {
@@ -163,13 +177,37 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
       </div>
       <div className="right-stack">
         <section className="editorial-block set-panel">
-          <div className="block-label"><span className="tag">01 / Your set</span><span className="fine">{demo ? 5 : files.length} pictures ready</span></div>
+          <div className="block-label">
+            <span className="tag">01 / Your set</span>
+            <div className="block-label-end">
+            <span className="fine">{demo ? 5 : files.length} pictures ready</span>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button type="button" className="upload-help" aria-label="What pictures to upload">
+                  <CircleHelp size={16} aria-hidden="true" />
+                  <span>what to upload</span>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent align="end" className="upload-guide" sideOffset={8}>
+                <p className="upload-guide-title">What to upload</p>
+                <ol>
+                  <li><b>Version lineage.</b> 3–5 related copies: original, edit, re-save, screenshot. Use your own phone photos, or the synthetic / trial buttons.</li>
+                  <li><b>Hidden file after the picture.</b> One clean JPEG (A) and the same JPEG with a small ZIP glued on after it (B). On screen they look identical. TraceLab flags the trailer as STEG evidence.</li>
+                  <li><b>Make B yourself.</b> Save any JPEG. Put a short text file in a ZIP. Then run: <code>cat photo.jpg secret.zip &gt; photo_hidden.jpg</code>. Upload both.</li>
+                  <li><b>Photo inside a photo.</b> For lineage, use a screenshot that frames another picture. For the hidden-file check, append a second JPEG or ZIP after EOI. That is not the same as drawing one photo into the pixels.</li>
+                </ol>
+                <p className="fine">Safe sources: photos you took, TraceLab’s synthetic demos, Unsplash / CC0 stills, a ZIP you made that holds only text you wrote. Do not upload intimate images, other people’s private photos, or anything you are not allowed to share.</p>
+              </PopoverContent>
+            </Popover>
+            </div>
+          </div>
           <label className="field-label" htmlFor="claims">Claims to check (optional, one per line. The sceptic judges them)</label>
           <textarea id="claims" className="claims-input" value={claims} onChange={e => setClaims(e.target.value)} placeholder="e.g. The cup was always on the table." disabled={busy} />
           <label className="check"><input type="checkbox" checked={forceMalformed} onChange={e => setForceMalformed(e.target.checked)} disabled={busy} /> Force one broken agent reply (recovery demo)</label>
           <div className="demo-actions">
             <Button variant="traceOutline" size="sm" onClick={useDemo} disabled={busy} title="Five computer-generated example pictures bundled with the engine"><Plus />use synthetic A–E</Button>
             <Button variant="traceOutline" size="sm" onClick={useTrial} disabled={busy}>{loadingTrial ? <Loader2 className="spin" /> : <Plus />}{loadingTrial ? 'loading trial data' : 'use trial data A–D'}</Button>
+            <Button variant="traceOutline" size="sm" onClick={useStego} disabled={busy} title="Clean JPEG plus the same pixels with a ZIP appended after EOI">{loadingStego ? <Loader2 className="spin" /> : <Plus />}{loadingStego ? 'loading stego demo' : 'use stego A–B'}</Button>
           </div>
           {notice && <p className="notice" role="alert">{notice}</p>}
         </section>
