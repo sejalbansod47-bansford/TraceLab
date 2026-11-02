@@ -261,6 +261,23 @@ export function TriageIntake({ startLoaded = false, replayCase }: { startLoaded?
             return <li key={L}><b>{L}</b> {meta?.data.format} {im.width}×{im.height}{meta?.data.metadata_present ? '' : ' · no metadata'} · sha256 {im.sha256.slice(0, 12)}… {hash && <Chips ids={meta ? [hash.id, meta.id] : [hash.id]} onOpen={setOpen} />}</li>;
           })}</ul>
         </details>
+        {(() => {
+          const stegs = (ev.evidence ?? []).filter(x => x.kind === 'trailing_payload');
+          if (!stegs.length) return null;
+          const hits = stegs.filter(x => x.data?.trailing_present);
+          return <details className="more" open={hits.length > 0 || undefined}>
+            <summary>Trailing payloads {hits.length ? `(${hits.length} found)` : '(none)'}</summary>
+            <p className="fine">Bytes after the image end marker (JPEG EOI / PNG IEND). Viewers ignore them; a second file can sit there. This does not detect pixel-domain (LSB) steganography.</p>
+            <ul className="edge-list">{stegs.map(s => {
+              const L = s.subject[0];
+              const d = s.data;
+              const sigs = (d.payload_signatures ?? []).map((p: { signature: string }) => p.signature);
+              return <li key={s.id}><b>{L}</b> {d.trailing_present
+                ? <>{d.trailing_bytes} bytes after end{sigs.length ? ` · looks like ${[...new Set(sigs)].join(', ')}` : ''}{d.carved ? <> · <a href={fileUrl(caseId, d.carved)} download>download carved</a></> : null}</>
+                : <>no trailing payload</>} <Chips ids={[s.id]} onOpen={setOpen} /></li>;
+            })}</ul>
+          </details>;
+        })()}
       </section>
       {report?.report && <section className="result-section brief">
         <span className="kicker">06 · The brief</span>

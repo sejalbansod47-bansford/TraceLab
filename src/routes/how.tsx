@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { Header, Footer, PictureStrip, AppLink } from '@/components/site';
-import { Fingerprint, FileText, ScanLine, Focus, Layers, GitBranch, ShieldCheck, Network } from 'lucide-react';
+import { Fingerprint, FileText, ScanLine, Focus, Layers, GitBranch, ShieldCheck, Network, Archive } from 'lucide-react';
 import { ScienceFlipCard } from '@/components/science-flip-card';
 export const Route = createFileRoute('/how')({ head: () => ({ meta: [
   { title: 'how TraceLab works: four steps' }, { name: 'description', content: 'Drop copies, code measures once, three specialists at once, a sceptic can say no.' },
@@ -35,12 +35,15 @@ const science: [string, string, string, string][] = [
   ['Face detection · OpenCV Haar cascade', 'Privacy: blur, never identify.',
    'A simple detector looks for face-shaped patterns and blurs them in everything we show or export. It answers “is there a face here?”, never “whose face is it?”. No face matching, no web search. The fingerprinted original is kept unchanged, so the evidence chain stays intact.',
    'A basic detector can miss faces or blur something that isn’t one. Check outputs before sharing.'],
+  ['Trailing payload · after EOI / IEND', 'A whole file glued after the picture.',
+   'JPEG ends at FF D9, PNG at the IEND chunk. Viewers stop there. We walk the real format structure, measure any leftover bytes, label known signatures (ZIP, PDF, …), and carve them out as STEG evidence. Same pixels can share a look while SHA-256 differs, because the hidden bytes never reach the screen.',
+   'Catches appended / polyglot file-in-file tricks. Does not detect pixel-domain (LSB) steganography, and a trailer is not proof of who put it there.'],
   ['Claude Agent SDK', 'Specialists that only read measurements.',
    'After the code has measured, a coordinator hands the numbers to three Claude specialists at once (provenance, lineage, visual). A separate sceptic agent throws out any claim without an evidence id, and any guess at who is in a picture or who edited it. Claude never sees the pictures, only the measurement JSON.',
    'Language models can still word things badly; that is why every sentence carries an id you can open, and the sceptic must pass it first.'],
 ];
 
-const scienceIcons = [Fingerprint, FileText, ScanLine, Focus, Layers, GitBranch, ShieldCheck, Network];
+const scienceIcons = [Fingerprint, FileText, ScanLine, Focus, Layers, GitBranch, ShieldCheck, Archive, Network];
 
 function Science() {
   return <section className="science" aria-labelledby="science-title">
