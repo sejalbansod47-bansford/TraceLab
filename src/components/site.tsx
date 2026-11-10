@@ -17,6 +17,6 @@ export function Footer() {
 export function PictureStrip() {
   return <div className="picture-strip" aria-label="Synthetic reference and two edited copies">{[['A', original, 'Reference'], ['C', crop, 'Framing'], ['D', tone, 'Tone']].map(([id, src, label]) => <figure key={id}><img src={src} alt={`Synthetic courtyard, ${label}`} width={1536} height={1024} /><figcaption><b>{id}</b><span>{label}</span></figcaption></figure>)}</div>;
 }
-export function AppLink({ demo = false }: { demo?: boolean }) {
-  return <Button asChild variant={demo ? 'traceOutline' : 'trace'}><Link to="/app" search={demo ? { demo: true } : {}}>{demo ? 'Use synthetic A–E' : 'Try it with your pictures'}<ArrowRight size={18} /></Link></Button>;
+export function AppLink() {
+  return <Button asChild variant="trace"><Link to="/app">Try it with your pictures<ArrowRight size={18} /></Link></Button>;
 }
